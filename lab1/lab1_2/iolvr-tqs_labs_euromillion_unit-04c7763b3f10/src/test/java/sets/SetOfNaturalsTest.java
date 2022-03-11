@@ -20,13 +20,13 @@ public class SetOfNaturalsTest {
     @BeforeEach
     public void setUp() {
         setA = new SetOfNaturals();
-        setB = SetOfNaturals.fromArray(new int[]{10, 20, 30, 40, 50, 60});
+        setB = SetOfNaturals.fromArray(new int[] { 10, 20, 30, 40, 50, 60 });
 
         setC = new SetOfNaturals();
         for (int i = 5; i < 50; i++) {
             setC.add(i * 10);
         }
-        setD = SetOfNaturals.fromArray(new int[]{30, 40, 50, 60, 10, 20});
+        setD = SetOfNaturals.fromArray(new int[] { 30, 40, 50, 60, 10, 20 });
     }
 
     @AfterEach
@@ -48,12 +48,11 @@ public class SetOfNaturalsTest {
 
     @Test
     public void testAddBadArray() {
-        int[] elems = new int[]{10, 20, -30};
+        int[] elems = new int[] { 10, 20, -30 };
 
         // must fail with exception
         assertThrows(IllegalArgumentException.class, () -> setA.add(elems));
     }
-
 
     @Test
     public void testIntersectForNoIntersection() {
@@ -61,5 +60,30 @@ public class SetOfNaturalsTest {
 
     }
 
+    // New Tests
+    @Test
+    public void testAddDuplicate() {
+        int[] elems = new int[] { 100, 20 };
+
+        // must fail with exception
+        assertThrows(IllegalArgumentException.class, () -> setD.add(elems),
+                "Exception was expeted, but wasn't thrown.");
+    }
+
+    @Test
+    public void sizeAfterAdd() {
+        int[] elems = new int[] { 1000, 2000 };
+
+        setD.add(elems);
+
+        assertEquals(8, setD.size(), "Add was not correctly done!");
+    }
+
+    @Test
+    // Reverse Case of the previous unitary test.
+    public void testIntersectDifferentSets() {
+        assertTrue(setB.intersects(setC), "Intersetion exists, but was reported as non-existing.");
+
+    }
 
 }

@@ -35,13 +35,17 @@ public class SetOfNaturals implements Iterable<Integer> {
 		return newSet;
 	}
 
-
 	public int size() {
 		return this.collection.size();
 	}
 
-
 	public boolean intersects(SetOfNaturals subset) {
+		for (int elem : subset) {
+			if (this.contains(elem)) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 
@@ -53,7 +57,6 @@ public class SetOfNaturals implements Iterable<Integer> {
 	public Iterator<Integer> iterator() {
 		return collection.iterator();
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -77,6 +80,5 @@ public class SetOfNaturals implements Iterable<Integer> {
 		final SetOfNaturals other = (SetOfNaturals) obj;
 		return Objects.equals(this.collection, other.collection);
 	}
-
 
 }
