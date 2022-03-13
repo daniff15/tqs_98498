@@ -2,7 +2,7 @@
 
 ### Pergunta
 
-Which classes/methods offer less coverage? Are all possible decision branches being covered?
+**Which classes/methods offer less coverage? Are all possible decision branches being covered?**
 
 The class that offered less coverage was CuponEuromillions because there was no tests for the format function, and this function was the one that was occuping most of the code of that class. The class Dip didn't have tests for the functions that were automatically implemented and the class EuromillionsDraw owned two methods without tests.
 
