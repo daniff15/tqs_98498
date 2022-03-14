@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 
 public class StackTests {
 
-    Stack stack;
+    Stack<String> stack;
 
     @BeforeEach
     void setUp() {
@@ -113,7 +113,7 @@ public class StackTests {
     @Test
     @DisplayName("Push into full stack.")
     void pushFullStack() {
-        Stack stackwithbound = new Stack(2);
+        Stack<String> stackwithbound = new Stack<String>(2);
 
         stackwithbound.push("element");
         stackwithbound.push("element2");

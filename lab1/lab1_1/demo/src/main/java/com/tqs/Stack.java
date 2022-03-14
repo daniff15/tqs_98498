@@ -3,21 +3,21 @@ package com.tqs;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
-public class Stack {
+public class Stack<T> {
 
-    private LinkedList<String> stack;
+    private LinkedList<T> stack;
     private int bound = -1;
 
     public Stack() {
-        this.stack = new LinkedList<>();
+        this.stack = new LinkedList<T>();
     }
 
     public Stack(int bound) {
         this.bound = bound;
-        stack = new LinkedList<>();
+        stack = new LinkedList<T>();
     }
 
-    public void push(String element) {
+    public void push(T element) {
         if (bound > 0) {
             if (stack.size() == bound)
                 throw new IllegalStateException();
@@ -25,14 +25,14 @@ public class Stack {
         stack.addFirst(element);
     }
 
-    public String pop() {
+    public T pop() {
         if (this.stack.isEmpty()) {
             throw new NoSuchElementException();
         }
         return stack.pop();
     }
 
-    public String peek() {
+    public T peek() {
         if (this.stack.isEmpty()) {
             throw new NoSuchElementException();
         }
