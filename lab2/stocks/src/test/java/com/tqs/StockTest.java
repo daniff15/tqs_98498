@@ -11,6 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+
 @ExtendWith(MockitoExtension.class)
 public class StockTest {
     @Mock
@@ -32,6 +35,8 @@ public class StockTest {
 
         double result = portfolio.getTotalValue();
 
-        Assertions.assertEquals(175.00, result);
+        // assertEquals(175.00, result);
+        assertThat(result, is(175.0));
+        Mockito.verify(marketMock, Mockito.times(2)).lookUpPrice(Mockito.anyString());
     }
 }
