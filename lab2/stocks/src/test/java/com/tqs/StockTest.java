@@ -19,26 +19,19 @@ public class StockTest {
     @InjectMocks
     StocksPortfolio portfolio;
 
-    @BeforeEach
-    public void setUp() {
-        portfolio = new StocksPortfolio(marketMock);
-    }
-
-    @Test
-    public void shouldAnswerWithTrue() {
-        assertTrue(true);
-    }
-
     @Test
     public void getTotalValue() {
 
-        Mockito.when(marketMock.lookUpPrice("EBAY")).thenReturn(42.0);
+        Mockito.when(marketMock.lookUpPrice("WORTEN")).thenReturn(50.0);
+        Mockito.when(marketMock.lookUpPrice("DELLOITE")).thenReturn(15.0);
 
-        Stock ebayStock = new Stock("EBAY", 2);
-        portfolio.addStock(ebayStock);
+        Stock wortenStock = new Stock("WORTEN", 2);
+        Stock delloiteStock = new Stock("DELLOITE", 5);
+        portfolio.addStock(wortenStock);
+        portfolio.addStock(delloiteStock);
 
         double result = portfolio.getTotalValue();
 
-        Assertions.assertEquals(84.00, result, 0.001);
+        Assertions.assertEquals(175.00, result);
     }
 }
