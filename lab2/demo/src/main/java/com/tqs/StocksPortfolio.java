@@ -4,7 +4,7 @@ import com.tqs.Stock;
 import java.util.ArrayList;
 
 public class StocksPortfolio {
-    private ArrayList<Stock> stocks;
+    private ArrayList<Stock> stocks = new ArrayList<Stock>();
     private IStockMarketService stockmarket;
 
     public StocksPortfolio(IStockMarketService stockmarket) {
