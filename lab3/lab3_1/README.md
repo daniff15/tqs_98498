@@ -47,4 +47,8 @@ O ficheiro application-integrationtest.properties contem os detalhes de configur
 
 Este ficheiro deve ser utilizado caso queiramos manter dados persistentes enquantos estamos a correr testes.
 
-e) -
+e)
+
+Em termos da a aproximação C, podemos afirmar que a API é acedida através do MockMvc e não possui qualquer tipo de base de dados
+
+Relativamente à D e E, podemos verificar que ambas têm presentes um SpringBoot context, logo é feito o deploy da API aí. No caso do D vai utilizar um servlet entry point para os testes, e no caso da E é usada uma API client, havendo pedidos e respostas involvidos.
