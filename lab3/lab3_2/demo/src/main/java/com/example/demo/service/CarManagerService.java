@@ -20,7 +20,7 @@ public class CarManagerService {
     }
 
     public <Optional> Car getCarDetails(Long carID) {
-        return carRepository.findDetailsBycarID(carID);
+        return carRepository.findByCarID(carID);
 
     }
 

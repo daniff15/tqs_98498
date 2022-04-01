@@ -54,7 +54,7 @@ class CarControllerTest {
 	}
 
 	@Test
-	void givenManyEmployees_whenGetEmployees_thenReturnJsonArray() throws Exception {
+	void givenManyCars_whenGetCars_thenReturnJsonArray() throws Exception {
 		Car car1 = new Car("Hummer", "H2 533CV");
 		Car car2 = new Car("Rolls-Royce", "Boat Tail");
 		Car car3 = new Car("Bugatti", "Centodieci");
@@ -68,8 +68,11 @@ class CarControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$", hasSize(3)))
 				.andExpect(jsonPath("$[0].maker", is(car1.getMaker())))
+				.andExpect(jsonPath("$[0].model", is(car1.getModel())))
 				.andExpect(jsonPath("$[1].maker", is(car2.getMaker())))
-				.andExpect(jsonPath("$[2].maker", is(car3.getMaker())));
+				.andExpect(jsonPath("$[1].model", is(car2.getModel())))
+				.andExpect(jsonPath("$[2].maker", is(car3.getMaker())))
+				.andExpect(jsonPath("$[2].model", is(car3.getModel())));
 		verify(carManagerService, times(1)).getAllCars();
 
 	}

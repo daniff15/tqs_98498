@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 @Transactional
 public interface CarRepository extends JpaRepository<Car, Long> {
-    public <Optional> Car findDetailsBycarID(Long carID);
+    public Car findByCarID(Long carID);
 
     public List<Car> findAll();
 }
