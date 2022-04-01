@@ -1,29 +1,30 @@
-package example.demo.service;
+package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import com.example.demo.CarRepository;
+
+import java.util.List;
+
 @Service
 @Transactional
 public class CarManagerService {
     @Autowired
-    private CarManagerService carRepository;
+    private CarRepository carRepository;
 
     public Car save(Car c) {
-        // return carRepository.save(c);
-        return null;
+        return carRepository.save(c);
     }
 
-    public Car getCarById(Long id) {
-        // return carRepository.findById(id);
-        return null;
+    public <Optional> Car getCarDetails(Long carID) {
+        return carRepository.findDetailsBycarID(carID);
 
     }
 
     public List<Car> getAllCars() {
-        // return carRepository.findAll();
-        return null;
+        return carRepository.findAll();
     }
 }

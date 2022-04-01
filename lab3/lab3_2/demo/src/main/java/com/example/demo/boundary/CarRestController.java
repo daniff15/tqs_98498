@@ -1,4 +1,4 @@
-package example.demo.boundary;
+package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,13 +20,13 @@ public class CarRestController {
         return new ResponseEntity<>(saved, status);
     }
 
-    @GetMapping("/car")
+    @GetMapping("/cars")
     public List<Car> getAllCars() {
         return carManagerService.getAllCars();
     }
 
     @GetMapping("/car")
-    public Car getCarById(@RequestParam(name = "id") Long id) {
-        return carManagerService.getCarById(id);
+    public Car getCarDetailsBycarID(@RequestParam(name = "carID") Long carID) {
+        return carManagerService.getCarDetails(carID);
     }
 }
