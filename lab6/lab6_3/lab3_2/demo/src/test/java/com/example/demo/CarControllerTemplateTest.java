@@ -16,10 +16,6 @@ import java.util.List;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.example.demo.Car;
-import com.example.demo.CarRepository;
-import com.example.demo.DemoApplication;
-
 import org.springframework.http.ResponseEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 //@TestPropertySource(locations = "application-integrationtest.properties")
-public class CarControllerTemplateTest {
+class CarControllerTemplateTest {
     // will need to use the server port for the invocation url
     @LocalServerPort
     int randomServerPort;

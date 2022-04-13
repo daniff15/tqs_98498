@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-import com.example.demo.CarRepository;
-
 import java.util.List;
 
 @Service
@@ -19,7 +17,7 @@ public class CarManagerService {
         return carRepository.save(c);
     }
 
-    public <Optional> Car getCarDetails(Long carID) {
+    public Car getCarDetails(Long carID) {
         return carRepository.findByCarID(carID);
 
     }

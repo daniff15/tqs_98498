@@ -38,7 +38,7 @@ class CarControllerTest {
 	}
 
 	@Test
-	public void whenPostCar_thenReturnCar() throws Exception {
+	void whenPostCar_thenReturnCar() throws Exception {
 		Car car = new Car("Nissan", "GT-R");
 
 		when(carManagerService.save(Mockito.any())).thenReturn(car);

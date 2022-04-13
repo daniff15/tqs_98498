@@ -30,6 +30,7 @@ Analysis of the copy of the “Cars” project from Lab #3.2:
 
 ![](img/antes_lab6_3.png)
 
+Although the code passed the quality gate test, there are still problems to be fixed.
 After the code changes and refactoring:
 
 ![](img/depois_lab6_3.png)

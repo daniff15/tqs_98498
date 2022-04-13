@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-public class CarRepoTest {
+class CarRepoTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
@@ -16,7 +16,7 @@ public class CarRepoTest {
     private CarRepository carRepository;
 
     @Test
-    public void whenFindByModel_thenCar() {
+    void whenFindByModel_thenCar() {
 
         Car car = new Car("Nissan", "GT-R");
 
@@ -28,7 +28,7 @@ public class CarRepoTest {
     }
 
     @Test
-    public void whenInvalidModel_thenNoCar() {
+    void whenInvalidModel_thenNoCar() {
 
         Car car = carRepository.findByCarID(-500L);
 
