@@ -1,8 +1,6 @@
 # Lab-6
 
-## Local Analysis
-
-### 6.2
+## 6.2
 
 ### f)
 
@@ -25,3 +23,15 @@ Although it has passed, we can see that it has a bug and a security hotspot (wea
 | Code smell (minor) |         Declarations should use Java collection interfaces such as "List"         | Declarations should use Java collection interfaces such as "List" rather than specific implementation classes such as "LinkedList" |
 | Code smell (minor) |                    The diamond operator ("<>") should be used                     |                     Replace the type specification in this constructor call with the diamond operator ("<>").                      |
 | Code smell (info)  |      JUnit5 test classes and methods should have default package visibility       |                                                   Remove this 'public' modifier.                                                   |
+
+## 6.3
+
+Analysis of the copy of the “Cars” project from Lab #3.2:
+
+![](img/antes_lab6_3.png)
+
+After the code changes and refactoring:
+
+![](img/depois_lab6_3.png)
+
+### d)
