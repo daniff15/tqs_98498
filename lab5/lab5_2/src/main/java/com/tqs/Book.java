@@ -3,10 +3,14 @@ package com.tqs;
 import java.util.Date;
 
 public class Book {
-	private final String title;
-	private final String author;
-	private final Date published;
+	private String title;
+	private String author;
+	private Date published;
  
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+    }
 
     public Book(String title, String author, Date published) {
         this.title = title;
@@ -27,7 +31,5 @@ public class Book {
     public Date getPublished() {
         return this.published;
     }
-
-    
 
 }

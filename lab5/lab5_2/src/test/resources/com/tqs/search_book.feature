@@ -9,3 +9,23 @@ Feature: Book search
     Then 2 books should have been found
       And Book 1 should have the title 'Some other book'
       And Book 2 should have the title 'One good book'
+  
+  Scenario: Search books by author
+    Given a book with the title 'One good book', written by 'Tim Tomson'
+      And another book with the title 'Some other book', written by 'Tim Tomson'
+      And another book with the title 'How to cook a dino', written by 'Fred Flintstone'
+    When the customer searches for books published by 'Tim Tomson'
+    Then 2 books should have been found
+      And Book 1 should have the title 'One good book'
+      And Book 2 should have the title 'Some other book'
+  
+  Scenario: Search books by title
+    Given I have the following books in the store
+      | title                                 | author      |
+      | The Devil in the White City           | Erik Larson |
+      | The Devil, the Witch and the Wardrobe | C.S. Lewis  |
+      | In the Garden of Beasts               | Erik Larson |
+    When the customer searches for books with title 'The Devil' 
+    Then 2 books should have been found
+      And Book 1 should have the title 'The Devil in the White City'
+      And Book 2 should have the title 'The Devil, the Witch and the Wardrobe'

@@ -18,7 +18,7 @@ Although it has passed, we can see that it has a bug and a security hotspot (wea
 
 |     **Issue**      |                              **Problem description**                              |                                                          **How to solve**                                                          |
 | :----------------: | :-------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------: |
-|        Bug         |                         "Random" objects should be reused                         |                                                    Save and re-use the "Random"                                                    |
+|        Bug         |                         "Random" objects should be reused                         |                                                   Save and re-use this "Random"                                                    |
 | Code smell (major) | A for loop stop condition should test the loop counter against an invariant value |                      Refactor the code in order to not assign to this loop counter from within the loop body.                      |
 | Code smell (major) |           Standard outputs should not be used directly to log anything            |                                     Replace this use of System.out or System.err by a logger.                                      |
 | Code smell (minor) |                 Modifiers should be declared in the correct order                 |                               Reorder the modifiers to comply with the Java Language Specification.                                |

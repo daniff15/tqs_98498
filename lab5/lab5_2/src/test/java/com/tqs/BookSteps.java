@@ -13,6 +13,7 @@ import java.time.ZoneOffset;
 import java.time.ZoneId;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.util.Map;
 
 public class BookSteps {
 	Library library = new Library();
@@ -57,5 +58,36 @@ public class BookSteps {
 	@Then("Book {int} should have the title {string}")
 	public void book_should_have_the_title(final int position, final String title) {
     	assertEquals(result.get(position - 1).getTitle(), title);
+	}
+
+	@Given("a book with the title {string}, written by {string}")
+	public void a_book_with_the_title_written_by(String title, String author) {
+    	Book book = new Book(title, author);
+        library.addBook(book);
+	}
+
+	@Given("another book with the title {string}, written by {string}")
+	public void another_book_with_the_title_written_by(String title, String author) {
+    	Book book = new Book(title, author);
+        library.addBook(book);
+	}
+
+	@When("the customer searches for books published by {string}")
+	public void the_customer_searches_for_books_published_by(String author) {
+    	result = library.findBooksByAuthor(author);
+	}
+
+	@Given("I have the following books in the store")
+	public void i_have_the_following_books_in_the_store(io.cucumber.datatable.DataTable dataTable) {
+    	List<Map<String, String>> livros = dataTable.asMaps(String.class, String.class);
+
+		for (Map<String, String> lil_map : livros) {
+            library.addBook(new Book(lil_map.get("title"), lil_map.get("author")));
+        }
+	}
+	
+	@When("the customer searches for books with title {string}")
+	public void the_customer_searches_for_books_with_title(String title) {
+    	result = library.findBooksByTitle(title);
 	}
 }

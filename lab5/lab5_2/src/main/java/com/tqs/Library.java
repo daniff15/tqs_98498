@@ -24,4 +24,30 @@ public class Library {
             return from.before(book.getPublished()) && end.getTime().after(book.getPublished());
         }).sorted(Comparator.comparing(Book::getPublished).reversed()).collect(Collectors.toList());
     }
+
+    public List<Book> findBooksByAuthor(String author){
+        List<Book> books = new ArrayList<>();
+
+        for (Book book : store) {
+            if (book.getAuthor().equals(author)) {
+                books.add(book);
+            }
+        }
+
+        return books.stream().collect(Collectors.toList());
+   
+    }
+
+    public List<Book> findBooksByTitle(String title){
+        List<Book> books = new ArrayList<>();
+
+        for (Book book : store) {
+            if (book.getTitle().contains(title)) {
+                books.add(book);
+            }
+        }
+
+        return books.stream().collect(Collectors.toList());
+   
+    }
 }
