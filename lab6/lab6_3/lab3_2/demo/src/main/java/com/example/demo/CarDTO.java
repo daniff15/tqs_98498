@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import java.util.Objects;
-
 public class CarDTO {
 
     private Long carID;
@@ -13,8 +11,7 @@ public class CarDTO {
     }
 
 
-    public CarDTO(Long carID, String maker, String model) {
-        this.carID = carID;
+    public CarDTO(String maker, String model) {
         this.maker = maker;
         this.model = model;
     }
@@ -42,22 +39,6 @@ public class CarDTO {
 
     public void setModel(String model) {
         this.model = model;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof CarDTO)) {
-            return false;
-        }
-        CarDTO carDTO = (CarDTO) o;
-        return Objects.equals(carID, carDTO.carID) && Objects.equals(maker, carDTO.maker) && Objects.equals(model, carDTO.model);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(carID, maker, model);
     }
 
 }

@@ -29,8 +29,8 @@ public class CarRestController {
         return carManagerService.getAllCars();
     }
 
-    @GetMapping("/car")
-    public Car getCarDetailsBycarID(@RequestParam(name = "carID") Long carID) {
+    @GetMapping("/car/{carID}")
+    public Car getCarDetailsBycarID(@PathVariable(name = "carID") Long carID) {
         return carManagerService.getCarDetails(carID);
     }
 }

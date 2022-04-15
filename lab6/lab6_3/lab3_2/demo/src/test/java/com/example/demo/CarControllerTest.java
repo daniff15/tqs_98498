@@ -77,4 +77,24 @@ class CarControllerTest {
 
 	}
 
+	@Test
+	void whenPostCarDTO_thenReturnCarByID() throws Exception {
+		CarDTO cardto = new CarDTO("Hummer", "H2 533CV");
+		Car car1 = new Car();
+		car1.setMaker(cardto.getMaker());
+		car1.setModel(cardto.getModel());
+		car1.setCarID(500L);
+
+		when(carManagerService.getCarDetails(car1.getCarID())).thenReturn(car1);
+
+		String url = "/api/car/" + car1.getCarID(); 
+		mvc.perform(
+			get(url).contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("maker", is("Hummer")))
+			.andExpect(jsonPath("model", is("H2 533CV")));
+		verify(carManagerService, times(1)).getCarDetails(car1.getCarID());
+
+	}
+
 }
