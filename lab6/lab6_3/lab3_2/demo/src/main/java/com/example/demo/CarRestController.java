@@ -14,9 +14,13 @@ public class CarRestController {
     private CarManagerService carManagerService;
 
     @PostMapping("/newcar")
-    public ResponseEntity<Car> createCar(@RequestBody Car car) {
+    public ResponseEntity<Car> createCar(@RequestBody CarDTO car) {
         HttpStatus status = HttpStatus.CREATED;
-        Car saved = carManagerService.save(car);
+        Car carPersistent = new Car();
+        carPersistent.setCarID(car.getCarID());
+        carPersistent.setMaker(car.getMaker());
+        carPersistent.setModel(car.getModel());
+        Car saved = carManagerService.save(carPersistent);
         return new ResponseEntity<>(saved, status);
     }
 

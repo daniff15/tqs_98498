@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
+@SuppressWarnings("java:S1118")
 class JsonUtils {
     static byte[] toJson(Object object) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
