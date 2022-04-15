@@ -31,8 +31,26 @@ Analysis of the copy of the “Cars” project from Lab #3.2:
 ![](img/antes_lab6_3.png)
 
 Although the code passed the quality gate test, there are still problems to be fixed.
+
 After the code changes and refactoring:
 
 ![](img/depois_lab6_3.png)
 
 ### d)
+
+![](img/coverage.png)
+
+## 6.4
+
+Open-source project (maven-based, Java project).
+
+Previously:
+
+![](img/lab6_4_antes.png)
+
+After refactoring:
+
+![](img/lab6_4_depois.png)
+
+A way to make the quality test fail would be, make new code, and not implement any tests for it
+Another way would be do duplicated code, because are condicions that checks this.
