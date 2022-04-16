@@ -3,16 +3,17 @@ package com.tqs;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
 public class ChooseFlight {
+    private WebDriver driver;
+    
     @FindBy(tagName = "h3")
     WebElement head;
 
-    private WebDriver driver;
-
-    @FindBy(how = How.LINK_TEXT, using = "Choose This Flight")
+    @FindBy(how = How.CLASS_NAME, using = "btn")
     private WebElement chooseFlightButton;
 
     public ChooseFlight(WebDriver driver) {
@@ -23,7 +24,7 @@ public class ChooseFlight {
     }
 
     public void clickOnChooseFlight() {
-        chooseFlightButton.click();
+        chooseFlightButton.click(); 
     }
 
     public boolean is2ndPageOpened() {

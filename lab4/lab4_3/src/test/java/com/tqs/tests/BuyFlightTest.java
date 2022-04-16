@@ -13,6 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Unit test for simple App.
  */
@@ -23,13 +25,18 @@ public class BuyFlightTest {
     @BeforeEach
     void setup() {
         driver = WebDriverManager.chromedriver().create();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     @Test
-    public void shouldAnswerWithTrue() {
+    public void buyFlight() {
         HomePage homePage = new HomePage(driver);
-
         assertTrue(homePage.isPageOpened());
+        homePage.clickOnFindFlights();
+
+        ChooseFlight chooseFlight = new ChooseFlight(driver);
+        assertTrue(chooseFlight.is2ndPageOpened());
+        chooseFlight.clickOnChooseFlight();
     }
 
     @AfterEach

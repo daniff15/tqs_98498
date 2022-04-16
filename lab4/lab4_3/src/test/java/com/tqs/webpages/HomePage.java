@@ -18,15 +18,14 @@ public class HomePage {
     WebElement fromPort;
 
     @FindBy(tagName = "toPort")
-    WebElement fromPort;
+    WebElement toPort;
 
-    @FindBy(how = How.LINK_TEXT, using = "Find Flights")
+    @FindBy(how = How.CLASS_NAME, using = "btn")
     private WebElement findFlightsButton;
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
         driver.get(PAGE_URL);
-        // Initialise Elements
         PageFactory.initElements(driver, this);
     }
 

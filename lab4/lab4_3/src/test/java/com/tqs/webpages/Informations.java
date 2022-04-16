@@ -7,6 +7,8 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
 public class Informations {
+    private WebDriver driver;
+    
     @FindBy(tagName = "h2")
     WebElement head;
 
@@ -29,19 +31,19 @@ public class Informations {
         PageFactory.initElements(driver, this);
     }
 
-    public void setName(String name) {
+    public void setName(String nameStr) {
         name.clear();
-        name.sendKeys(name);
+        name.sendKeys(nameStr);
     }
 
-    public void setAddress(String address) {
+    public void setAddress(String addressStr) {
         address.clear();
-        address.sendKeys(address);
+        address.sendKeys(addressStr);
     }
 
-    public void setCity(String city) {
+    public void setCity(String cityStr) {
         city.clear();
-        city.sendKeys(city);
+        city.sendKeys(cityStr);
     }
 
     public void clickOnPurchaseFlight() {
