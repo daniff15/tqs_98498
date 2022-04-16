@@ -10,8 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.junit.jupiter.api.extension.ExtendWith;
-
+import org.openqa.selenium.Dimension;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,6 +30,8 @@ public class BuyFlightTest {
 
     @Test
     public void buyFlight() {
+        driver.get("https://blazedemo.com/");
+        driver.manage().window().setSize(new Dimension(1920, 1080));
         HomePage homePage = new HomePage(driver);
         assertTrue(homePage.isPageOpened());
         homePage.clickOnFindFlights();
@@ -36,6 +39,16 @@ public class BuyFlightTest {
         ChooseFlight chooseFlight = new ChooseFlight(driver);
         assertTrue(chooseFlight.is2ndPageOpened());
         chooseFlight.clickOnChooseFlight();
+
+        Informations informations = new Informations(driver);
+        assertTrue(informations.is3rdPageOpened());
+        informations.setName("Dani");
+        informations.setAddress("McDonalds");
+        informations.setCity("Aveiro");
+
+        //Final finalPage = new Final(driver);
+        //assertTrue(finalPage.isFinalPageOpened());
+
     }
 
     @AfterEach

@@ -10,11 +10,9 @@ import org.openqa.selenium.support.PageFactory;
 public class ChooseFlight {
     private WebDriver driver;
     
-    @FindBy(tagName = "h3")
-    WebElement head;
+    @FindBy(tagName = "h3") WebElement head;
 
-    @FindBy(how = How.CLASS_NAME, using = "btn")
-    private WebElement chooseFlightButton;
+    @FindBy(xpath = "/html/body/div[2]/table/tbody/tr[1]/td[1]/input") private WebElement chooseFlightButton;
 
     public ChooseFlight(WebDriver driver) {
         this.driver = driver;

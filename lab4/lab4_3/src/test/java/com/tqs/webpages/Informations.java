@@ -9,20 +9,15 @@ import org.openqa.selenium.support.PageFactory;
 public class Informations {
     private WebDriver driver;
     
-    @FindBy(tagName = "h2")
-    WebElement head;
+    @FindBy(tagName = "h2") WebElement head;
 
-    @FindBy(id = "inputName")
-    WebElement name;
+    @FindBy(id = "inputName") WebElement name;
 
-    @FindBy(id = "address")
-    WebElement address;
+    @FindBy(id = "address") WebElement address;
 
-    @FindBy(id = "city")
-    WebElement city;
+    @FindBy(id = "city") WebElement city;
 
-    @FindBy(how = How.LINK_TEXT, using = "Purchase Flight")
-    private WebElement purchaseFlightsButton;
+    @FindBy(xpath = "/html/body/div[2]/form/div[11]/div/input") private WebElement purchaseFlightsButton;
 
     public Informations(WebDriver driver) {
         this.driver = driver;

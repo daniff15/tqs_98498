@@ -9,23 +9,16 @@ import org.openqa.selenium.support.PageFactory;
 public class HomePage {
     private WebDriver driver;
 
-    private static String PAGE_URL = "https://blazedemo.com/";
+    @FindBy(tagName = "h1") WebElement head;
 
-    @FindBy(tagName = "h1")
-    WebElement head;
+    @FindBy(tagName = "fromPort") WebElement fromPort;
 
-    @FindBy(tagName = "fromPort")
-    WebElement fromPort;
+    @FindBy(tagName = "toPort") WebElement toPort;
 
-    @FindBy(tagName = "toPort")
-    WebElement toPort;
-
-    @FindBy(how = How.CLASS_NAME, using = "btn")
-    private WebElement findFlightsButton;
+    @FindBy(className="btn-primary") private WebElement findFlightsButton;
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
-        driver.get(PAGE_URL);
         PageFactory.initElements(driver, this);
     }
 
