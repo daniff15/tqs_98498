@@ -25,7 +25,6 @@ public class BuyFlightTest {
     @BeforeEach
     void setup() {
         driver = WebDriverManager.chromedriver().create();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     @Test
