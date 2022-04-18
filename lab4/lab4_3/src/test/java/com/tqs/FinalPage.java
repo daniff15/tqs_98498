@@ -7,12 +7,12 @@ import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
-public class Final {
+public class FinalPage {
     private WebDriver driver;
     
     @FindBy(tagName = "h1") WebElement head;
 
-    public Final(WebDriver driver) {
+    public FinalPage(WebDriver driver) {
         this.driver = driver;
 
         // Initialise Elements

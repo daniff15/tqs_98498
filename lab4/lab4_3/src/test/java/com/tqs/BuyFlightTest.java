@@ -45,9 +45,10 @@ public class BuyFlightTest {
         informations.setName("Dani");
         informations.setAddress("McDonalds");
         informations.setCity("Aveiro");
+        informations.clickOnPurchaseFlight();
 
-        //Final finalPage = new Final(driver);
-        //assertTrue(finalPage.isFinalPageOpened());
+        FinalPage finalPage = new FinalPage(driver);
+        assertTrue(finalPage.isFinalPageOpened());
 
     }
 

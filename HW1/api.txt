@@ -1,0 +1,5 @@
+Main:
+https://covid-19-statistics.p.rapidapi.com
+
+See if is usable:
+https://rapidapi.com/rose.beatty/api/eu-covid-19-travel/
