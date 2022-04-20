@@ -1,4 +1,4 @@
-package com.tqs.controller;
+package com.example.demo.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
-import com.tqs.service.CovidService;
+import com.example.demo.service.CovidService;
 
 @RestController
 @RequestMapping("/api")

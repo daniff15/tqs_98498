@@ -1,4 +1,5 @@
-package com.tqs.entities;
+package com.example.demo.entities;
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
