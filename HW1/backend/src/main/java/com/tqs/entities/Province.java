@@ -1,4 +1,4 @@
-package tqs.com.entities;
+package com.tqs.entities;
 
 public class Province {
 

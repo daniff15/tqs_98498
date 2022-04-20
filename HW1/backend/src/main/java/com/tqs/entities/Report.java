@@ -1,6 +1,6 @@
-package tqs.com.entities;
+package com.tqs.entities;
 
-import java.time.LocalTime;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Report {
@@ -34,8 +34,6 @@ public class Report {
         this.active_diff = active_diff;
         this.fatality_rate = fatality_rate;
     }
-
-
 
     public LocalDate getDate() {
         return this.date;
