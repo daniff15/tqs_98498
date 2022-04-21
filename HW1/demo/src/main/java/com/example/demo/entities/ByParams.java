@@ -1,7 +1,22 @@
 package com.example.demo.entities;
 
+import java.io.Serializable;
+import java.util.Date;
 
-public class ByParams {
+import javax.persistence.*;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+@Entity
+@Table(name = "by_params")
+public class ByParams implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @CreationTimestamp
+    private Date datecreation;
 
     private String date;
     private String last_updated;
@@ -15,11 +30,14 @@ public class ByParams {
     private int active_diff;
     private Double fatality_rate;
 
+    private String country;
+    private String province;
 
     public ByParams() {
     }
 
-    public ByParams(String date, String last_updated, int confirmed, int confirmed_diff, int deaths, int deaths_diff, int recovered, int recovered_diff, int active, int active_diff, Double fatality_rate) {
+    public ByParams(String date, String last_updated, int confirmed, int confirmed_diff, int deaths, int deaths_diff,
+            int recovered, int recovered_diff, int active, int active_diff, Double fatality_rate) {
         this.date = date;
         this.last_updated = last_updated;
         this.confirmed = confirmed;
@@ -121,21 +139,53 @@ public class ByParams {
         this.fatality_rate = fatality_rate;
     }
 
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getDatecreation() {
+        return this.datecreation;
+    }
+
+    public void setDatecreation(Date datecreation) {
+        this.datecreation = datecreation;
+    }
+
+    public String getCountry() {
+        return this.country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getProvince() {
+        return this.province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
     @Override
     public String toString() {
         return "{" +
-            " date='" + getDate() + "'" +
-            ", last_updated='" + getLast_updated() + "'" +
-            ", confirmed='" + getConfirmed() + "'" +
-            ", confirmed_diff='" + getConfirmed_diff() + "'" +
-            ", deaths='" + getDeaths() + "'" +
-            ", deaths_diff='" + getDeaths_diff() + "'" +
-            ", recovered='" + getRecovered() + "'" +
-            ", recovered_diff='" + getRecovered_diff() + "'" +
-            ", active='" + getActive() + "'" +
-            ", active_diff='" + getActive_diff() + "'" +
-            ", fatality_rate='" + getFatality_rate() + "'" +
-            "}";
+                " date='" + getDate() + "'" +
+                ", last_updated='" + getLast_updated() + "'" +
+                ", confirmed='" + getConfirmed() + "'" +
+                ", confirmed_diff='" + getConfirmed_diff() + "'" +
+                ", deaths='" + getDeaths() + "'" +
+                ", deaths_diff='" + getDeaths_diff() + "'" +
+                ", recovered='" + getRecovered() + "'" +
+                ", recovered_diff='" + getRecovered_diff() + "'" +
+                ", active='" + getActive() + "'" +
+                ", active_diff='" + getActive_diff() + "'" +
+                ", fatality_rate='" + getFatality_rate() + "'" +
+                "}";
     }
 
 }

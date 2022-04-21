@@ -20,20 +20,6 @@ public class CovidService {
 
     // private static final Logger logger = Logger.getLogger(CovidService.class);
 
-    public String getRegions() throws URISyntaxException, IOException, InterruptedException {
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(baseURL + "/regions"))
-                .header("X-RapidAPI-Host", "covid-19-statistics.p.rapidapi.com")
-                .header("X-RapidAPI-Key", "fb7bb9a35emshc06230b446762ddp1ed435jsn883017bf1d34")
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
-
-        return response.body();
-    }
-
     public ByParams getByDate(String dateURL) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(baseURL + "/reports/total?date=" + dateURL))
