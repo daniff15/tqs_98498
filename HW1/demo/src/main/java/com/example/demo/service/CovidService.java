@@ -1,13 +1,19 @@
 package com.example.demo.service;
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
 import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -30,12 +36,13 @@ public class CovidService {
 
     private static final String baseURL = "https://covid-19-statistics.p.rapidapi.com";
 
-    // private static final Logger logger = Logger.getLogger(CovidService.class);
+    private static final Logger logger = LoggerFactory.getLogger(CovidService.class);
 
     public ByParams getByDate(String dateURL) throws URISyntaxException, IOException, InterruptedException {
+        logger.info("Getting Data for date {} in the cache", dateURL);
 
         if (cache.getByDate(dateURL) == null) {
-            // log
+            logger.info("Data not in cache");
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(baseURL + "/reports/total?date=" + dateURL))
                     .header("X-RapidAPI-Host", "covid-19-statistics.p.rapidapi.com")
@@ -50,6 +57,7 @@ public class CovidService {
             covidRepository.save(byParams);
             return byParams;
         } else {
+            logger.info("Data retrieved from cache");
             return cache.getByDate(dateURL);
         }
     }
@@ -57,6 +65,7 @@ public class CovidService {
     public ByParams getByCountry(String country) throws URISyntaxException, IOException, InterruptedException {
 
         if (cache.getByCountry(country) == null) {
+            logger.info("Data not in cache");
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(baseURL + "/reports?region_name=" + country))
                     .header("X-RapidAPI-Host", "covid-19-statistics.p.rapidapi.com")
@@ -72,6 +81,7 @@ public class CovidService {
             return byParams;
 
         } else {
+            logger.info("Data retrieved from cache");
             return cache.getByCountry(country);
         }
     }
@@ -80,6 +90,7 @@ public class CovidService {
             throws URISyntaxException, IOException, InterruptedException {
 
         if (cache.getByParametros(dateURL, countryURL, provinceURL) == null) {
+            logger.info("Data not in cache");
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(baseURL + "/reports?region_province=" + provinceURL + "&region_name=" + countryURL
                             + "&date=" + dateURL))
@@ -95,8 +106,36 @@ public class CovidService {
             covidRepository.save(byParams);
             return byParams;
         } else {
+            logger.info("Data retrieved from cache");
             return cache.getByParametros(dateURL, countryURL, provinceURL);
         }
+    }
+
+    public List<String> getCountries() throws URISyntaxException, IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://covid-19-statistics.p.rapidapi.com/regions"))
+                .header("X-RapidAPI-Host", "covid-19-statistics.p.rapidapi.com")
+                .header("X-RapidAPI-Key", "fb7bb9a35emshc06230b446762ddp1ed435jsn883017bf1d34")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        JSONObject jo = new JSONObject(response.body());
+
+        List<String> countries = convertToCountries(jo);
+
+        return countries;
+    }
+
+    public List<String> convertToCountries(JSONObject jo) {
+        List<String> paises = new ArrayList<>();
+
+        for (int i = 0; i < jo.getJSONArray("data").length(); i++) {
+            paises.add(jo.getJSONArray("data").getJSONObject(i).getString("name"));
+        }
+
+        return paises;
+
     }
 
     public ByParams convertJSONbyCountrytoByParams(JSONObject jo, String country) {

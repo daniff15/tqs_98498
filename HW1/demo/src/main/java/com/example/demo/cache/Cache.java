@@ -6,6 +6,8 @@ import java.util.List;
 import com.example.demo.entities.ByParams;
 import com.example.demo.repository.CovidRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -17,13 +19,17 @@ public class Cache {
     CovidRepository covidRepository;
 
     private int timeToLive; // in seconds
+    private int hits; // in seconds
+    private int miss; // in seconds
+    private int num_requests; // in seconds
 
-    public Cache(int timeToLive) {
-        this.timeToLive = timeToLive;
-    }
+    private static final Logger logger = LoggerFactory.getLogger(Cache.class);
 
     public Cache() {
         this.timeToLive = 120;
+        this.hits = 0;
+        this.miss = 0;
+        this.num_requests = 0;
     }
 
     public ByParams getByDate(String date) {
@@ -31,7 +37,7 @@ public class Cache {
 
         if (byDate != null) {
             if (hasExpired(byDate)) {
-                // log.info("Measurement expired in the cache");
+                logger.info("Data expired in the cache");
                 covidRepository.delete(byDate);
                 return null;
             }
@@ -43,7 +49,7 @@ public class Cache {
         ByParams byCountry = covidRepository.findByCountry(country);
         if (byCountry != null) {
             if (hasExpired(byCountry)) {
-                // log.info("Measurement expired in the cache");
+                logger.info("Data expired in the cache");
                 covidRepository.delete(byCountry);
                 return null;
             }
@@ -56,7 +62,7 @@ public class Cache {
 
         if (byParametros != null) {
             if (hasExpired(byParametros)) {
-                // log.info("Measurement expired in the cache");
+                logger.info("Data expired in the cache");
                 covidRepository.delete(byParametros);
                 return null;
             }
@@ -65,19 +71,19 @@ public class Cache {
     }
 
     public boolean hasExpired(ByParams m) {
-        // log.info("Checking if Measurement {} is expired", m);
+        logger.info("Check if Data {} is expired", m);
         Date mostRecentExpiredDate = new Date(System.currentTimeMillis() - this.timeToLive * 1000);
         return m.getDatecreation().before(mostRecentExpiredDate);
     }
 
     @Scheduled(fixedRate = 60 * 1000)
     public void cleanExpiredCachedMeasurements() {
-        // log.info("Running scheduled method to clean expired cached measurements");
+        logger.info("Clean expired cached data");
         Date ExpiredDate = new Date(System.currentTimeMillis() - this.timeToLive * 1000);
         List<ByParams> expiredDates = covidRepository.findAllByDatecreationIsLessThanEqual(ExpiredDate);
 
         for (ByParams byParams : expiredDates) {
-            // log.info("Deleting expired ByParams: {}", m);
+            logger.info("Deleting expired ByParams: {}", byParams);
             covidRepository.delete(byParams);
         }
 

@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.net.URISyntaxException;
 import java.lang.InterruptedException;
@@ -17,9 +18,14 @@ public class CovidController {
     public CovidService covidService;
 
     @GetMapping("/date/{date}")
-    public ByParams getByDate(@PathVariable(value = "date") String date)
+    public ByParams getByDate(@PathVariable(value = "date") String date, Model model)
             throws IOException, URISyntaxException, InterruptedException {
-        return covidService.getByDate(date);
+        ByParams byParams = covidService.getByDate(date);
+        model.addAttribute("infected", byParams.getConfirmed());
+        model.addAttribute("recovered", byParams.getRecovered());
+        model.addAttribute("deaths", byParams.getDeaths());
+        model.addAttribute("active", byParams.getActive());
+        return byParams;
     }
 
     @GetMapping("/country/{country}")
