@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.http.HttpRequest;
@@ -8,69 +9,97 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 
+import javax.transaction.Transactional;
+
 import java.net.URISyntaxException;
 import java.lang.InterruptedException;
 
+import com.example.demo.cache.Cache;
 import com.example.demo.entities.ByParams;
+import com.example.demo.repository.CovidRepository;
 
 @Service
+@Transactional
 public class CovidService {
+
+    @Autowired
+    Cache cache;
+
+    @Autowired
+    CovidRepository covidRepository;
 
     private static final String baseURL = "https://covid-19-statistics.p.rapidapi.com";
 
     // private static final Logger logger = Logger.getLogger(CovidService.class);
 
     public ByParams getByDate(String dateURL) throws URISyntaxException, IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(baseURL + "/reports/total?date=" + dateURL))
-                .header("X-RapidAPI-Host", "covid-19-statistics.p.rapidapi.com")
-                .header("X-RapidAPI-Key", "fb7bb9a35emshc06230b446762ddp1ed435jsn883017bf1d34")
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
-        JSONObject jo = new JSONObject(response.body());
+        if (cache.getByDate(dateURL) == null) {
+            // log
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(baseURL + "/reports/total?date=" + dateURL))
+                    .header("X-RapidAPI-Host", "covid-19-statistics.p.rapidapi.com")
+                    .header("X-RapidAPI-Key", "fb7bb9a35emshc06230b446762ddp1ed435jsn883017bf1d34")
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .build();
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request,
+                    HttpResponse.BodyHandlers.ofString());
 
-        ByParams byParams = convertJSONbyDatetoByParams(jo);
-
-        return byParams;
+            JSONObject jo = new JSONObject(response.body());
+            ByParams byParams = convertJSONbyDatetoByParams(jo);
+            covidRepository.save(byParams);
+            return byParams;
+        } else {
+            return cache.getByDate(dateURL);
+        }
     }
 
     public ByParams getByCountry(String country) throws URISyntaxException, IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(baseURL + "/reports?region_name=" + country))
-                .header("X-RapidAPI-Host", "covid-19-statistics.p.rapidapi.com")
-                .header("X-RapidAPI-Key", "fb7bb9a35emshc06230b446762ddp1ed435jsn883017bf1d34")
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
-        JSONObject jo = new JSONObject(response.body());
+        if (cache.getByCountry(country) == null) {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(baseURL + "/reports?region_name=" + country))
+                    .header("X-RapidAPI-Host", "covid-19-statistics.p.rapidapi.com")
+                    .header("X-RapidAPI-Key", "fb7bb9a35emshc06230b446762ddp1ed435jsn883017bf1d34")
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .build();
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request,
+                    HttpResponse.BodyHandlers.ofString());
 
-        ByParams byParams = convertJSONbyCountrytoByParams(jo);
+            JSONObject jo = new JSONObject(response.body());
+            ByParams byParams = convertJSONbyCountrytoByParams(jo, country);
+            covidRepository.save(byParams);
+            return byParams;
 
-        return byParams;
+        } else {
+            return cache.getByCountry(country);
+        }
     }
 
     public ByParams getByParams(String dateURL, String countryURL, String provinceURL)
             throws URISyntaxException, IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(baseURL + "/reports?region_province=" + provinceURL + "&region_name=" + countryURL
-                        + "&date=" + dateURL))
-                .header("X-RapidAPI-Host", "covid-19-statistics.p.rapidapi.com")
-                .header("X-RapidAPI-Key", "fb7bb9a35emshc06230b446762ddp1ed435jsn883017bf1d34")
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        JSONObject jo = new JSONObject(response.body());
 
-        ByParams byParams = convertJSONbyParamstoByParams(jo);
+        if (cache.getByParametros(dateURL, countryURL, provinceURL) == null) {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(baseURL + "/reports?region_province=" + provinceURL + "&region_name=" + countryURL
+                            + "&date=" + dateURL))
+                    .header("X-RapidAPI-Host", "covid-19-statistics.p.rapidapi.com")
+                    .header("X-RapidAPI-Key", "fb7bb9a35emshc06230b446762ddp1ed435jsn883017bf1d34")
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .build();
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request,
+                    HttpResponse.BodyHandlers.ofString());
+            JSONObject jo = new JSONObject(response.body());
 
-        return byParams;
-
+            ByParams byParams = convertJSONbyParamstoByParams(jo, countryURL, provinceURL);
+            covidRepository.save(byParams);
+            return byParams;
+        } else {
+            return cache.getByParametros(dateURL, countryURL, provinceURL);
+        }
     }
 
-    public ByParams convertJSONbyCountrytoByParams(JSONObject jo) {
+    public ByParams convertJSONbyCountrytoByParams(JSONObject jo, String country) {
         String date = jo.getJSONArray("data").getJSONObject(0).getString("date");
         String last_updated = jo.getJSONArray("data").getJSONObject(0).getString("last_update");
         int confirmed_diff = 0;
@@ -98,7 +127,7 @@ public class CovidService {
         fatality_rate = fatality_rate / jo.getJSONArray("data").length();
 
         return new ByParams(date, last_updated, confirmed, confirmed_diff, deaths, deaths_diff, recovered,
-                recovered_diff, active, active_diff, fatality_rate);
+                recovered_diff, active, active_diff, fatality_rate, country, "none");
     }
 
     public ByParams convertJSONbyDatetoByParams(JSONObject jo) {
@@ -115,10 +144,10 @@ public class CovidService {
         int deaths = jo.getJSONObject("data").getInt("deaths");
 
         return new ByParams(date, last_updated, confirmed, confirmed_diff, deaths, deaths_diff, recovered,
-                recovered_diff, active, active_diff, fatality_rate);
+                recovered_diff, active, active_diff, fatality_rate, "all", "none");
     }
 
-    public ByParams convertJSONbyParamstoByParams(JSONObject jo) {
+    public ByParams convertJSONbyParamstoByParams(JSONObject jo, String country, String province) {
         String date = jo.getJSONArray("data").getJSONObject(0).getString("date");
         int confirmed_diff = jo.getJSONArray("data").getJSONObject(0).getInt("confirmed_diff");
         int active_diff = jo.getJSONArray("data").getJSONObject(0).getInt("active_diff");
@@ -132,6 +161,6 @@ public class CovidService {
         int deaths = jo.getJSONArray("data").getJSONObject(0).getInt("deaths");
 
         return new ByParams(date, last_updated, confirmed, confirmed_diff, deaths, deaths_diff, recovered,
-                recovered_diff, active, active_diff, fatality_rate);
+                recovered_diff, active, active_diff, fatality_rate, country, province);
     }
 }

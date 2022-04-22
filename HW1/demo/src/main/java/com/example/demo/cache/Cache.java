@@ -39,6 +39,31 @@ public class Cache {
         return byDate;
     }
 
+    public ByParams getByCountry(String country) {
+        ByParams byCountry = covidRepository.findByCountry(country);
+        if (byCountry != null) {
+            if (hasExpired(byCountry)) {
+                // log.info("Measurement expired in the cache");
+                covidRepository.delete(byCountry);
+                return null;
+            }
+        }
+        return byCountry;
+    }
+
+    public ByParams getByParametros(String date, String country, String province) {
+        ByParams byParametros = covidRepository.findByDateAndCountryAndProvince(date, country, province);
+
+        if (byParametros != null) {
+            if (hasExpired(byParametros)) {
+                // log.info("Measurement expired in the cache");
+                covidRepository.delete(byParametros);
+                return null;
+            }
+        }
+        return byParametros;
+    }
+
     public boolean hasExpired(ByParams m) {
         // log.info("Checking if Measurement {} is expired", m);
         Date mostRecentExpiredDate = new Date(System.currentTimeMillis() - this.timeToLive * 1000);

@@ -29,15 +29,15 @@ public class ByParams implements Serializable {
     private int active;
     private int active_diff;
     private Double fatality_rate;
-
     private String country;
     private String province;
 
     public ByParams() {
     }
 
-    public ByParams(String date, String last_updated, int confirmed, int confirmed_diff, int deaths, int deaths_diff,
-            int recovered, int recovered_diff, int active, int active_diff, Double fatality_rate) {
+    public ByParams(String date, String last_updated, int confirmed, int confirmed_diff,
+            int deaths, int deaths_diff, int recovered, int recovered_diff, int active, int active_diff,
+            Double fatality_rate, String country, String province) {
         this.date = date;
         this.last_updated = last_updated;
         this.confirmed = confirmed;
@@ -49,6 +49,8 @@ public class ByParams implements Serializable {
         this.active = active;
         this.active_diff = active_diff;
         this.fatality_rate = fatality_rate;
+        this.country = country;
+        this.province = province;
     }
 
     public String getDate() {
@@ -174,7 +176,9 @@ public class ByParams implements Serializable {
     @Override
     public String toString() {
         return "{" +
-                " date='" + getDate() + "'" +
+                " id='" + getId() + "'" +
+                ", datecreation='" + getDatecreation() + "'" +
+                ", date='" + getDate() + "'" +
                 ", last_updated='" + getLast_updated() + "'" +
                 ", confirmed='" + getConfirmed() + "'" +
                 ", confirmed_diff='" + getConfirmed_diff() + "'" +
@@ -185,6 +189,8 @@ public class ByParams implements Serializable {
                 ", active='" + getActive() + "'" +
                 ", active_diff='" + getActive_diff() + "'" +
                 ", fatality_rate='" + getFatality_rate() + "'" +
+                ", country='" + getCountry() + "'" +
+                ", province='" + getProvince() + "'" +
                 "}";
     }
 
