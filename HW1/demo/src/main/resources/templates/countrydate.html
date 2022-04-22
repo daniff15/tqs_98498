@@ -35,7 +35,7 @@
                   <li class="helpers">Search:</li>
                   <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili"><a style="color: black;" href="/index" class="nav-link">Country</a></li>
                   <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili" ><a style="color: black;" href="/date" class="nav-link">Date</a></li>
-                  <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili active" ><a style="color: black;" href="/province" class="nav-link">Region/Province</a></li>
+                  <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili active" ><a style="color: black;" href="/countrydate" class="nav-link">Country&Date</a></li>
                   <li class="helpers">Help:</li>
                   <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili" ><a style="color: black;" href="/cache" class="nav-link">Cache</a></li>
                 </ul>
@@ -46,50 +46,38 @@
 
         <div style="background-color: #c1cbd1; margin-top: 2%;">
           <div class="container" style="height:max-content;">
-            <h3 style="color: rgb(31, 19, 19); text-align: center;">Search for information about Covid-19 through several fields...</h3>
+            <h3 style="color: rgb(31, 19, 19); text-align: center;">Search for information about Covid-19 through date and country...</h3>
+            <form action="#" th:action="@{/countrydate}" th:object="${getDateCountryForm}" method="post">
             <div class="text-left" style="margin-top: 5%;">
               <div class="row" style="margin-left: 5%;">
-                <div class="col-lg-3">
-                  <form action="#" class="row">
+                <div class="col-lg-6">
                     <div class="col-md-12">
                       <div class="form-group">
                         <label for="input_from">Select Date</label>
-                        <input type="date" class="form-control" id="input">
+                        <input type="date" th:field="*{date}" class="form-control" id="input">
                       </div>
                     </div>
-                  </form>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-6">
                   <legend style="font-size: medium; margin-bottom: 1%; margin-left: 2%;">Choose a country...</legend>  
-                  <select style="width: 300px;height: 50px; border-radius: 15px; padding-left: 10px; background-color: white;" class="form-select" aria-label="Choose a Country...">
-                    <option selected>Portugal</option>
-                    <option>Andorra</option>
-                    <option>Alemanha</option>
-                    <option>Brasil</option>
-                  </select>
-                </div>
-                <div class="col-lg-3">
-                  <legend style="font-size: medium; margin-bottom: 1%; margin-left: 30%;">Choose a Region/Province...</legend>  
-                  <select style="width: 300px;height: 50px; border-radius: 15px; padding-left: 10px; margin-left: 30%; background-color: white;" class="form-select" aria-label="Choose a Country...">
-                    <option selected>Viseu</option>
-                    <option>Aveiro</option>
-                    <option>Almada</option>
-                    <option>Barcelos</option>
+                  <select th:field="*{countryName}" style="width: 300px;height: 50px; border-radius: 15px; padding-left: 10px; background-color: white;" class="form-select" aria-label="Choose a Country...">
+                    <option th:each="country : ${countries}" th:value="${country}" th:text="${country}"></option>
                   </select>
                 </div>
               </div>
                   
             </div>
     
-            <button class="btn btn-secondary btn-sm" id="btn" onclick="myfunc()" style="margin-left: 45%; margin-top: 1%;">Search!</button>
+            <button class="btn btn-secondary btn-sm" type="submit" id="btn" style="margin-left: 45%; margin-top: 1%;">Search!</button>
+            </form>
 
             <div class="row" style="margin-top: 10%;">
               <div class="column">
                 <div class="card" style="background-color: rgba(102, 179, 255, 0.5) !important;">
                   <h3>Infected</h3>
-                  <p>0</p>
+                  <p th:text="${infected}">0</p>
                   <p>Last Updated at: </p>
-                  <p class="lighter">Wed Apr 20 2022
+                  <p class="lighter" th:text="${last_updated}">Wed Apr 20 2022
     
                     01:20:51</p>
                     <p >Number of infect cases of COVID-19</p>
@@ -99,9 +87,9 @@
               <div class="column">
                 <div class="card" style="background-color: rgba(191, 242, 202, 0.5) !important">
                   <h3>Recovered</h3>
-                  <p>0</p>
+                  <p th:text="${recovered}">0</p>
                   <p>Last Updated at: </p>
-                  <p class="lighter">Wed Apr 20 2022
+                  <p class="lighter" th:text="${last_updated}">Wed Apr 20 2022
     
                     01:20:51</p>
                     <p>Number of recoveries from COVID-19</p>
@@ -111,9 +99,9 @@
               <div class="column">
                 <div class="card" style="background-color: rgba(237, 178, 178, 0.5) !important">
                   <h3>Deaths</h3>
-                  <p>0</p>
+                  <p th:text="${deaths}" >0</p>
                   <p>Last Updated at: </p>
-                  <p class="lighter">Wed Apr 20 2022
+                  <p class="lighter" th:text="${last_updated}">Wed Apr 20 2022
     
                     01:20:51</p>
                   <p>Number of deaths cases of COVID-19</p>
@@ -123,9 +111,9 @@
               <div class="column">
                 <div class="card" style="background-color: rgba(237, 199, 152, 0.5) !important">
                   <h3>Active</h3>
-                  <p>0</p>
+                  <p th:text="${active}">0</p>
                   <p>Last Updated at: </p>
-                  <p class="lighter">Wed Apr 20 2022
+                  <p class="lighter" th:text="${last_updated}">Wed Apr 20 2022
     
                     01:20:51</p>
                     <p>Number of active cases of COVID-19</p>

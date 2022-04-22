@@ -1,4 +1,4 @@
-package com.example.demo.entities;
+package com.example.demo.entities.forms;
 
 public class ForTemplate {
     private String name;

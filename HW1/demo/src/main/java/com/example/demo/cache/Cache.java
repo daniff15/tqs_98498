@@ -57,8 +57,8 @@ public class Cache {
         return byCountry;
     }
 
-    public ByParams getByParametros(String date, String country, String province) {
-        ByParams byParametros = covidRepository.findByDateAndCountryAndProvince(date, country, province);
+    public ByParams getByParametros(String date, String country) {
+        ByParams byParametros = covidRepository.findByDateAndCountry(date, country);
 
         if (byParametros != null) {
             if (hasExpired(byParametros)) {

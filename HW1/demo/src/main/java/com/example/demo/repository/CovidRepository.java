@@ -18,5 +18,5 @@ public interface CovidRepository extends JpaRepository<ByParams, String> {
 
     List<ByParams> findAllByDatecreationIsLessThanEqual(Date date);
 
-    ByParams findByDateAndCountryAndProvince(String date, String country, String province);
+    ByParams findByDateAndCountry(String date, String country);
 }

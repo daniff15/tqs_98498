@@ -40,7 +40,7 @@
                   <li class="helpers">Search:</li>
                   <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili"><a style="color: black;" href="/index" class="nav-link">Country</a></li>
                   <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili active" ><a style="color: black;" href="/date" class="nav-link">Date</a></li>
-                  <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili" ><a style="color: black;" href="/province" class="nav-link">Region/Province</a></li>
+                  <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili" ><a style="color: black;" href="/countrydate" class="nav-link">Country&Date</a></li>
                   <li class="helpers">Help:</li>
                   <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili" ><a style="color: black;" href="/cache" class="nav-link">Cache</a></li>
                 </ul>
@@ -55,28 +55,28 @@
             <div class="text-left" style="margin-top: 5%;">
               <div class="row justify-content-center">
                 <div class="col-lg-3">
-                  <form action="#" class="row">
+                  <form action="#" th:action="@{/date}" th:object="${getDateForm}" method="post">
                     <div class="col-md-12">
                       <div class="form-group">
                         <label for="input_from">Select Date</label>
-                        <input type="date" class="form-control" id="input">
+                        <input type="date" th:field="*{name}" class="form-control" id="input">
                       </div>
                     </div>
-                  </form>
+                  </div>
                 </div>
+                
               </div>
-                  
-            </div>
-
-            <button class="btn btn-secondary btn-sm" id="btn" onclick="myfunc()" style="margin-left: 45%;">Search!</button>
+              
+              <button class="btn btn-secondary btn-sm" id="btn" type="submit" style="margin-left: 45%;">Search!</button>
+            </form>
     
             <div class="row" style="margin-top: 10%;">
               <div class="column">
                 <div class="card" style="background-color: rgba(102, 179, 255, 0.5) !important;">
                   <h3>Infected</h3>
-                  <p>0</p>
+                  <p th:text="${infected}">0</p>
                   <p>Last Updated at: </p>
-                  <p class="lighter">Wed Apr 20 2022
+                  <p class="lighter" th:text="${last_updated}">Wed Apr 20 2022
     
                     01:20:51</p>
                     <p >Number of infect cases of COVID-19</p>
@@ -86,9 +86,9 @@
               <div class="column">
                 <div class="card" style="background-color: rgba(191, 242, 202, 0.5) !important">
                   <h3>Recovered</h3>
-                  <p>0</p>
+                  <p th:text="${recovered}">0</p>
                   <p>Last Updated at: </p>
-                  <p class="lighter">Wed Apr 20 2022
+                  <p class="lighter" th:text="${last_updated}">Wed Apr 20 2022
     
                     01:20:51</p>
                     <p>Number of recoveries from COVID-19</p>
@@ -98,9 +98,9 @@
               <div class="column">
                 <div class="card" style="background-color: rgba(237, 178, 178, 0.5) !important">
                   <h3>Deaths</h3>
-                  <p>0</p>
+                  <p th:text="${deaths}">0</p>
                   <p>Last Updated at: </p>
-                  <p class="lighter">Wed Apr 20 2022
+                  <p class="lighter" th:text="${last_updated}">Wed Apr 20 2022
     
                     01:20:51</p>
                   <p>Number of deaths cases of COVID-19</p>
@@ -110,9 +110,9 @@
               <div class="column">
                 <div class="card" style="background-color: rgba(237, 199, 152, 0.5) !important">
                   <h3>Active</h3>
-                  <p>0</p>
+                  <p th:text="${active}">0</p>
                   <p>Last Updated at: </p>
-                  <p class="lighter">Wed Apr 20 2022
+                  <p class="lighter" th:text="${last_updated}">Wed Apr 20 2022
     
                     01:20:51</p>
                     <p>Number of active cases of COVID-19</p>

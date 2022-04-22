@@ -86,14 +86,15 @@ public class CovidService {
         }
     }
 
-    public ByParams getByParams(String dateURL, String countryURL, String provinceURL)
+    public ByParams getByParams(String dateURL, String countryURL)
             throws URISyntaxException, IOException, InterruptedException {
 
-        if (cache.getByParametros(dateURL, countryURL, provinceURL) == null) {
+        if (cache.getByParametros(dateURL, countryURL) == null) {
             logger.info("Data not in cache");
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(baseURL + "/reports?region_province=" + provinceURL + "&region_name=" + countryURL
-                            + "&date=" + dateURL))
+                    .uri(URI.create(
+                            "https://covid-19-statistics.p.rapidapi.com/reports?date=" + countryURL
+                                    + "&region_name=" + dateURL))
                     .header("X-RapidAPI-Host", "covid-19-statistics.p.rapidapi.com")
                     .header("X-RapidAPI-Key", "fb7bb9a35emshc06230b446762ddp1ed435jsn883017bf1d34")
                     .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -102,12 +103,12 @@ public class CovidService {
                     HttpResponse.BodyHandlers.ofString());
             JSONObject jo = new JSONObject(response.body());
 
-            ByParams byParams = convertJSONbyParamstoByParams(jo, countryURL, provinceURL);
+            ByParams byParams = convertJSONbyParamstoByParams(jo, countryURL);
             covidRepository.save(byParams);
             return byParams;
         } else {
             logger.info("Data retrieved from cache");
-            return cache.getByParametros(dateURL, countryURL, provinceURL);
+            return cache.getByParametros(dateURL, countryURL);
         }
     }
 
@@ -166,7 +167,7 @@ public class CovidService {
         fatality_rate = fatality_rate / jo.getJSONArray("data").length();
 
         return new ByParams(date, last_updated, confirmed, confirmed_diff, deaths, deaths_diff, recovered,
-                recovered_diff, active, active_diff, fatality_rate, country, "none");
+                recovered_diff, active, active_diff, fatality_rate, country);
     }
 
     public ByParams convertJSONbyDatetoByParams(JSONObject jo) {
@@ -183,10 +184,10 @@ public class CovidService {
         int deaths = jo.getJSONObject("data").getInt("deaths");
 
         return new ByParams(date, last_updated, confirmed, confirmed_diff, deaths, deaths_diff, recovered,
-                recovered_diff, active, active_diff, fatality_rate, "all", "none");
+                recovered_diff, active, active_diff, fatality_rate, "all");
     }
 
-    public ByParams convertJSONbyParamstoByParams(JSONObject jo, String country, String province) {
+    public ByParams convertJSONbyParamstoByParams(JSONObject jo, String country) {
         String date = jo.getJSONArray("data").getJSONObject(0).getString("date");
         int confirmed_diff = jo.getJSONArray("data").getJSONObject(0).getInt("confirmed_diff");
         int active_diff = jo.getJSONArray("data").getJSONObject(0).getInt("active_diff");
@@ -200,6 +201,6 @@ public class CovidService {
         int deaths = jo.getJSONArray("data").getJSONObject(0).getInt("deaths");
 
         return new ByParams(date, last_updated, confirmed, confirmed_diff, deaths, deaths_diff, recovered,
-                recovered_diff, active, active_diff, fatality_rate, country, province);
+                recovered_diff, active, active_diff, fatality_rate, country);
     }
 }

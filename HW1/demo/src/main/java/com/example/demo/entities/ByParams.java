@@ -30,14 +30,13 @@ public class ByParams implements Serializable {
     private int active_diff;
     private Double fatality_rate;
     private String country;
-    private String province;
 
     public ByParams() {
     }
 
     public ByParams(String date, String last_updated, int confirmed, int confirmed_diff,
             int deaths, int deaths_diff, int recovered, int recovered_diff, int active, int active_diff,
-            Double fatality_rate, String country, String province) {
+            Double fatality_rate, String country) {
         this.date = date;
         this.last_updated = last_updated;
         this.confirmed = confirmed;
@@ -50,7 +49,6 @@ public class ByParams implements Serializable {
         this.active_diff = active_diff;
         this.fatality_rate = fatality_rate;
         this.country = country;
-        this.province = province;
     }
 
     public String getDate() {
@@ -165,14 +163,6 @@ public class ByParams implements Serializable {
         this.country = country;
     }
 
-    public String getProvince() {
-        return this.province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
     @Override
     public String toString() {
         return "{" +
@@ -190,7 +180,6 @@ public class ByParams implements Serializable {
                 ", active_diff='" + getActive_diff() + "'" +
                 ", fatality_rate='" + getFatality_rate() + "'" +
                 ", country='" + getCountry() + "'" +
-                ", province='" + getProvince() + "'" +
                 "}";
     }
 

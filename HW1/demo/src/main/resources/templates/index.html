@@ -35,7 +35,7 @@
                   <li class="helpers">Search:</li>
                   <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili active"><a style="color: black;" href="/index" class="nav-link">Country</a></li>
                   <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili" ><a style="color: black;" href="/date" class="nav-link">Date</a></li>
-                  <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili" ><a style="color: black;" href="/province" class="nav-link">Region/Province</a></li>
+                  <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili" ><a style="color: black;" href="/countrydate" class="nav-link">Country&Date</a></li>
                   <li class="helpers">Help:</li>
                   <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili" ><a style="color: black;" href="/cache" class="nav-link">Cache</a></li>
                 </ul>
@@ -48,7 +48,7 @@
         <div style="background-color: #c1cbd1; margin-top: 2%;">
           <div class="container" style="height:max-content;">
             <h3 style="color: rgb(31, 19, 19); text-align: center;">Search for information about Covid-19 in a country...</h3>
-            <form action="#" th:action="@{/index}" th:object="${filterForm}" method="post">
+            <form action="#" th:action="@{/index}" th:object="${getCountryForm}" method="post">
             <select th:field="*{name}" style="width: 400px;height: 50px; border-radius: 15px; padding-left: 10px; margin-left: 30%; margin-top: 7%; background-color: white;" class="form-select" aria-label="Choose a Country...">
               <option th:if="${selected}" th:value="${selected}" th:text="${selected}" selected="selected"></option>
               <option th:each="country : ${countries}" th:value="${country}" th:text="${country}"></option>
