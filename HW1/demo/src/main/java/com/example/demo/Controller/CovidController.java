@@ -20,12 +20,7 @@ public class CovidController {
     @GetMapping("/date/{date}")
     public ByParams getByDate(@PathVariable(value = "date") String date, Model model)
             throws IOException, URISyntaxException, InterruptedException {
-        ByParams byParams = covidService.getByDate(date);
-        model.addAttribute("infected", byParams.getConfirmed());
-        model.addAttribute("recovered", byParams.getRecovered());
-        model.addAttribute("deaths", byParams.getDeaths());
-        model.addAttribute("active", byParams.getActive());
-        return byParams;
+        return covidService.getByDate(date);
     }
 
     @GetMapping("/country/{country}")
