@@ -19,17 +19,17 @@ public class Cache {
     CovidRepository covidRepository;
 
     private int timeToLive; // in seconds
-    private int hits; // in seconds
-    private int miss; // in seconds
-    private int num_requests; // in seconds
+    // private int hits;
+    // private int miss;
+    // private int num_requests;
 
     private static final Logger logger = LoggerFactory.getLogger(Cache.class);
 
     public Cache() {
         this.timeToLive = 120;
-        this.hits = 0;
-        this.miss = 0;
-        this.num_requests = 0;
+        // this.hits = 0;
+        // this.miss = 0;
+        // this.num_requests = 0;
     }
 
     public ByParams getByDate(String date) {

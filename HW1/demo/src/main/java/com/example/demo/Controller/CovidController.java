@@ -29,7 +29,7 @@ public class CovidController {
         return covidService.getByCountry(country);
     }
 
-    @GetMapping("/{date}/{country}")
+    @GetMapping("/date/{date}/country/{country}")
     public ByParams getByParams(@PathVariable(value = "date") String date,
             @PathVariable(value = "country") String country)
             throws IOException, URISyntaxException, InterruptedException {

@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.io.IOException;
 import java.net.http.HttpRequest;
@@ -88,13 +87,15 @@ public class CovidService {
 
     public ByParams getByParams(String dateURL, String countryURL)
             throws URISyntaxException, IOException, InterruptedException {
+        logger.info("wtf --- " + dateURL + "   " + countryURL);
 
         if (cache.getByParametros(dateURL, countryURL) == null) {
             logger.info("Data not in cache");
+            logger.info("Date --" + dateURL);
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(
-                            "https://covid-19-statistics.p.rapidapi.com/reports?date=" + countryURL
-                                    + "&region_name=" + dateURL))
+                            "https://covid-19-statistics.p.rapidapi.com/reports?region_name=" + countryURL
+                                    + "&date=" + dateURL))
                     .header("X-RapidAPI-Host", "covid-19-statistics.p.rapidapi.com")
                     .header("X-RapidAPI-Key", "fb7bb9a35emshc06230b446762ddp1ed435jsn883017bf1d34")
                     .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -105,6 +106,8 @@ public class CovidService {
 
             ByParams byParams = convertJSONbyParamstoByParams(jo, countryURL);
             covidRepository.save(byParams);
+            System.out.println(
+                    "ESTA A GUARDAR LA OU NAO PA ?? -- " + covidRepository.findByDateAndCountry(dateURL, countryURL));
             return byParams;
         } else {
             logger.info("Data retrieved from cache");
@@ -132,7 +135,9 @@ public class CovidService {
         List<String> paises = new ArrayList<>();
 
         for (int i = 0; i < jo.getJSONArray("data").length(); i++) {
-            paises.add(jo.getJSONArray("data").getJSONObject(i).getString("name"));
+            if (!jo.getJSONArray("data").getJSONObject(i).getString("name").contains(" ")) {
+                paises.add(jo.getJSONArray("data").getJSONObject(i).getString("name"));
+            }
         }
 
         return paises;

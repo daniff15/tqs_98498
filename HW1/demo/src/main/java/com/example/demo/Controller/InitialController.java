@@ -90,15 +90,15 @@ public class InitialController {
 
 		try {
 			model.addAttribute("infected",
-					covidService.getByParams(forTemplate.getCountryName(), forTemplate.getDate()).getConfirmed());
+					covidService.getByParams(forTemplate.getDate(), forTemplate.getCountryName()).getConfirmed());
 			model.addAttribute("recovered",
-					covidService.getByParams(forTemplate.getCountryName(), forTemplate.getDate()).getRecovered());
+					covidService.getByParams(forTemplate.getDate(), forTemplate.getCountryName()).getRecovered());
 			model.addAttribute("deaths",
-					covidService.getByParams(forTemplate.getCountryName(), forTemplate.getDate()).getDeaths());
+					covidService.getByParams(forTemplate.getDate(), forTemplate.getCountryName()).getDeaths());
 			model.addAttribute("active",
-					covidService.getByParams(forTemplate.getCountryName(), forTemplate.getDate()).getActive());
+					covidService.getByParams(forTemplate.getDate(), forTemplate.getCountryName()).getActive());
 			model.addAttribute("last_updated",
-					covidService.getByParams(forTemplate.getCountryName(), forTemplate.getDate()).getLast_updated());
+					covidService.getByParams(forTemplate.getDate(), forTemplate.getCountryName()).getLast_updated());
 			model.addAttribute("selected", forTemplate.getCountryName());
 		} catch (IOException | URISyntaxException | InterruptedException e) {
 			e.printStackTrace();
