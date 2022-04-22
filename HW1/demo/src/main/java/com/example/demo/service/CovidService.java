@@ -87,7 +87,6 @@ public class CovidService {
 
     public ByParams getByParams(String dateURL, String countryURL)
             throws URISyntaxException, IOException, InterruptedException {
-        logger.info("wtf --- " + dateURL + "   " + countryURL);
 
         if (cache.getByParametros(dateURL, countryURL) == null) {
             logger.info("Data not in cache");
@@ -106,8 +105,6 @@ public class CovidService {
 
             ByParams byParams = convertJSONbyParamstoByParams(jo, countryURL);
             covidRepository.save(byParams);
-            System.out.println(
-                    "ESTA A GUARDAR LA OU NAO PA ?? -- " + covidRepository.findByDateAndCountry(dateURL, countryURL));
             return byParams;
         } else {
             logger.info("Data retrieved from cache");
