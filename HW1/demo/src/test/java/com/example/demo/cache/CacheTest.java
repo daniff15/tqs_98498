@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
+import java.util.Date;
+
 import com.example.demo.entities.ByParams;
 import com.example.demo.repository.CovidRepository;
 
@@ -23,6 +25,7 @@ public class CacheTest {
     private Integer recovered;
     private Integer deaths;
     private String date;
+    private Date datecreation;
     private String country;
     private ByParams byParams;
 
@@ -36,6 +39,7 @@ public class CacheTest {
     void setUp() {
         cache = new Cache();
         ByParams byParams = new ByParams();
+        this.byParams = byParams;
         this.active = 12345;
         byParams.setActive(active);
         this.confirmed = 1234567;
@@ -48,7 +52,9 @@ public class CacheTest {
         byParams.setDate(date);
         this.country = "Portugal";
         byParams.setCountry(country);
-        this.byParams = byParams;
+        this.datecreation = new Date(System.currentTimeMillis());
+        byParams.setDatecreation(datecreation);
+
     }
 
     @Test

@@ -37,7 +37,7 @@ public class CovidService {
 
     private static final Logger logger = LoggerFactory.getLogger(CovidService.class);
 
-    public ByParams getByDate(String dateURL) throws URISyntaxException, IOException, InterruptedException {
+    public ByParams getByDate(String dateURL) throws IOException, InterruptedException {
         logger.info("Getting Data for date {} in the cache", dateURL);
 
         if (cache.getByDate(dateURL) == null) {
@@ -52,6 +52,9 @@ public class CovidService {
                     HttpResponse.BodyHandlers.ofString());
 
             JSONObject jo = new JSONObject(response.body());
+            // if (jo.has("error")) {
+            // throw new Exception("Not in right Format (yyyy-mm--dd)");
+            // }
             ByParams byParams = convertJSONbyDatetoByParams(jo);
             covidRepository.save(byParams);
             return byParams;
