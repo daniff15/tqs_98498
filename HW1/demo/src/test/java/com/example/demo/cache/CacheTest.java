@@ -1,19 +1,22 @@
-package com.example.demo.unit;
+package com.example.demo.cache;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
-import com.example.demo.cache.Cache;
 import com.example.demo.entities.ByParams;
 import com.example.demo.repository.CovidRepository;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 public class CacheTest {
     private Integer active;
     private Integer confirmed;
@@ -24,16 +27,15 @@ public class CacheTest {
     private ByParams byParams;
 
     @Mock
-    private CovidRepository covidRepository;
+    CovidRepository covidRepository;
 
     @InjectMocks
-    private Cache cache;
+    Cache cache;
 
     @BeforeEach
-    void setUp() throws InterruptedException {
+    void setUp() {
         cache = new Cache();
         ByParams byParams = new ByParams();
-        this.byParams = byParams;
         this.active = 12345;
         byParams.setActive(active);
         this.confirmed = 1234567;
@@ -46,14 +48,15 @@ public class CacheTest {
         byParams.setDate(date);
         this.country = "Portugal";
         byParams.setCountry(country);
+        this.byParams = byParams;
     }
 
     @Test
     void addValueTest() {
-        when(covidRepository.findByDateAndCountry("2020-11-11", "Portugal"))
-                .thenReturn(this.byParams);
 
-        ByParams cacheParams = cache.getByParametros("2020-11-11", "Portugal");
+        when(covidRepository.findByDateAndCountry(this.date, this.country))
+                .thenReturn(this.byParams);
+        ByParams cacheParams = cache.getByParametros(this.date, this.country);
 
         assertNotNull(cacheParams);
 
@@ -63,6 +66,11 @@ public class CacheTest {
         // 4000, 12, 54, 0.0123, "Portugal"));
         // assertEquals(1, this.cache.getCacheSize());
     }
+
+    // @Test
+    // void testHasExpiredValidMeasurement() {
+    // assertFalse(cache.hasExpired(this.byParams));
+    // }
 
     @AfterEach
     void tearDown() {

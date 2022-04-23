@@ -90,7 +90,6 @@ public class CovidService {
 
         if (cache.getByParametros(dateURL, countryURL) == null) {
             logger.info("Data not in cache");
-            logger.info("Date --" + dateURL);
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(
                             "https://covid-19-statistics.p.rapidapi.com/reports?region_name=" + countryURL
@@ -204,5 +203,9 @@ public class CovidService {
 
         return new ByParams(date, last_updated, confirmed, confirmed_diff, deaths, deaths_diff, recovered,
                 recovered_diff, active, active_diff, fatality_rate, country);
+    }
+
+    public ByParams save(ByParams any) {
+        return covidRepository.save(any);
     }
 }

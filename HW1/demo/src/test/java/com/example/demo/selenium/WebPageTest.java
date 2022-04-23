@@ -21,131 +21,134 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WebPageTest {
 
-    private WebDriver driver;
-    private Map<String, Object> vars;
-    JavascriptExecutor js;
+        private WebDriver driver;
+        private Map<String, Object> vars;
+        JavascriptExecutor js;
 
-    @BeforeEach
-    void setup() {
-        driver = new ChromeDriver();
-        js = (JavascriptExecutor) driver;
-        vars = new HashMap<String, Object>();
-    }
-
-    @Test
-    public void countryDataTest() throws InterruptedException {
-        driver.get("http://localhost:8080/index");
-        driver.manage().window().setSize(new Dimension(1866, 1053));
-        {
-            WebElement dropdown = driver.findElement(By.id("name"));
-            dropdown.findElement(By.xpath("//option[. = 'Brazil']")).click();
+        @BeforeEach
+        void setup() {
+                driver = new ChromeDriver();
+                js = (JavascriptExecutor) driver;
+                vars = new HashMap<String, Object>();
         }
-        assertEquals("Search for information about Covid-19 in a country...",
-                driver.findElement(By.xpath("/html/body/div[2]/div/h3")).getText());
 
-        driver.findElement(By.id("name")).click();
-        driver.findElement(By.id("btn")).click();
+        @Test
+        public void countryDataTest() throws InterruptedException {
 
-        Thread.sleep(2000);
+                // ! AQUI À MEDIDA Q OS DIAS PASSAM OS TESTES MUDAM
 
-        assertEquals("30330629",
-                driver.findElement(
-                        By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(1) > div > p:nth-child(2)"))
-                        .getText());
+                driver.get("http://localhost:8080/index");
+                driver.manage().window().setSize(new Dimension(1866, 1053));
+                {
+                        WebElement dropdown = driver.findElement(By.id("name"));
+                        dropdown.findElement(By.xpath("//option[. = 'Brazil']")).click();
+                }
+                assertEquals("Search for information about Covid-19 in a country...",
+                                driver.findElement(By.xpath("/html/body/div[2]/div/h3")).getText());
 
-        assertEquals("0",
-                driver.findElement(
-                        By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(2) > div > p:nth-child(2)"))
-                        .getText());
+                driver.findElement(By.id("name")).click();
+                driver.findElement(By.id("btn")).click();
 
-        assertEquals("662751",
-                driver.findElement(
-                        By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(3) > div > p:nth-child(2)"))
-                        .getText());
+                Thread.sleep(2000);
 
-        assertEquals("29667878",
-                driver.findElement(
-                        By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(4) > div > p:nth-child(2)"))
-                        .getText());
+                assertEquals("30338697",
+                                driver.findElement(
+                                                By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(1) > div > p:nth-child(2)"))
+                                                .getText());
 
-    }
+                assertEquals("0",
+                                driver.findElement(
+                                                By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(2) > div > p:nth-child(2)"))
+                                                .getText());
 
-    @Test
-    public void dateDataTest() throws InterruptedException {
-        driver.get("http://localhost:8080/date");
-        driver.manage().window().setSize(new Dimension(1866, 1053));
+                assertEquals("662802",
+                                driver.findElement(
+                                                By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(3) > div > p:nth-child(2)"))
+                                                .getText());
 
-        assertEquals("Search for information about Covid-19 in a certain date worldwide...",
-                driver.findElement(By.xpath("/html/body/div[2]/div/h3")).getText());
+                assertEquals("29675895",
+                                driver.findElement(
+                                                By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(4) > div > p:nth-child(2)"))
+                                                .getText());
 
-        driver.findElement(By.id("input")).click();
-        driver.findElement(By.id("input")).sendKeys("1892020");
-        driver.findElement(By.id("btn")).click();
-
-        assertEquals("30406197",
-                driver.findElement(
-                        By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(1) > div > p:nth-child(2)"))
-                        .getText());
-
-        assertEquals("20683110",
-                driver.findElement(
-                        By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(2) > div > p:nth-child(2)"))
-                        .getText());
-
-        assertEquals("950520",
-                driver.findElement(
-                        By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(3) > div > p:nth-child(2)"))
-                        .getText());
-
-        assertEquals("8772567",
-                driver.findElement(
-                        By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(4) > div > p:nth-child(2)"))
-                        .getText());
-    }
-
-    @Test
-    public void dateCoutryDataTest() throws InterruptedException {
-        driver.get("http://localhost:8080/countrydate");
-        driver.manage().window().setSize(new Dimension(1866, 1053));
-
-        assertEquals("Search for information about Covid-19 through date and country...",
-                driver.findElement(By.xpath("/html/body/div[2]/div/h3")).getText());
-
-        driver.findElement(By.id("input")).click();
-        driver.findElement(By.id("input")).sendKeys("2072020");
-
-        {
-            WebElement dropdown = driver.findElement(By.id("countryName"));
-            dropdown.findElement(By.xpath("//option[. = 'Mexico']")).click();
         }
-        Thread.sleep(2000);
 
-        driver.findElement(By.id("btn")).click();
+        @Test
+        public void dateDataTest() throws InterruptedException {
+                driver.get("http://localhost:8080/date");
+                driver.manage().window().setSize(new Dimension(1866, 1053));
 
-        assertEquals("3486",
-                driver.findElement(
-                        By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(1) > div > p:nth-child(2)"))
-                        .getText());
+                assertEquals("Search for information about Covid-19 in a certain date worldwide...",
+                                driver.findElement(By.xpath("/html/body/div[2]/div/h3")).getText());
 
-        assertEquals("2745",
-                driver.findElement(
-                        By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(2) > div > p:nth-child(2)"))
-                        .getText());
+                driver.findElement(By.id("input")).click();
+                driver.findElement(By.id("input")).sendKeys("1892020");
+                driver.findElement(By.id("btn")).click();
 
-        assertEquals("209",
-                driver.findElement(
-                        By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(3) > div > p:nth-child(2)"))
-                        .getText());
+                assertEquals("30406197",
+                                driver.findElement(
+                                                By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(1) > div > p:nth-child(2)"))
+                                                .getText());
 
-        assertEquals("532",
-                driver.findElement(
-                        By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(4) > div > p:nth-child(2)"))
-                        .getText());
-    }
+                assertEquals("20683110",
+                                driver.findElement(
+                                                By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(2) > div > p:nth-child(2)"))
+                                                .getText());
 
-    @AfterEach
-    void teardown() {
-        driver.quit();
-    }
+                assertEquals("950520",
+                                driver.findElement(
+                                                By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(3) > div > p:nth-child(2)"))
+                                                .getText());
+
+                assertEquals("8772567",
+                                driver.findElement(
+                                                By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(4) > div > p:nth-child(2)"))
+                                                .getText());
+        }
+
+        @Test
+        public void dateCoutryDataTest() throws InterruptedException {
+                driver.get("http://localhost:8080/countrydate");
+                driver.manage().window().setSize(new Dimension(1866, 1053));
+
+                assertEquals("Search for information about Covid-19 through date and country...",
+                                driver.findElement(By.xpath("/html/body/div[2]/div/h3")).getText());
+
+                driver.findElement(By.id("input")).click();
+                driver.findElement(By.id("input")).sendKeys("2072020");
+
+                {
+                        WebElement dropdown = driver.findElement(By.id("countryName"));
+                        dropdown.findElement(By.xpath("//option[. = 'Mexico']")).click();
+                }
+                Thread.sleep(2000);
+
+                driver.findElement(By.id("btn")).click();
+
+                assertEquals("3486",
+                                driver.findElement(
+                                                By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(1) > div > p:nth-child(2)"))
+                                                .getText());
+
+                assertEquals("2745",
+                                driver.findElement(
+                                                By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(2) > div > p:nth-child(2)"))
+                                                .getText());
+
+                assertEquals("209",
+                                driver.findElement(
+                                                By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(3) > div > p:nth-child(2)"))
+                                                .getText());
+
+                assertEquals("532",
+                                driver.findElement(
+                                                By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(4) > div > p:nth-child(2)"))
+                                                .getText());
+        }
+
+        @AfterEach
+        void teardown() {
+                driver.quit();
+        }
 
 }
