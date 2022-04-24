@@ -19,17 +19,22 @@ public class Cache {
     CovidRepository covidRepository;
 
     private int timeToLive; // in seconds
-    // private int hits;
-    // private int miss;
-    // private int num_requests;
+    private int hits = 0;
+    private int misses = 0;
+    private int request_count = 0;
 
     private static final Logger logger = LoggerFactory.getLogger(Cache.class);
 
     public Cache() {
         this.timeToLive = 120;
-        // this.hits = 0;
-        // this.miss = 0;
-        // this.num_requests = 0;
+    }
+
+    public void addHit() {
+        this.hits++;
+    }
+
+    public void addMiss() {
+        this.misses++;
     }
 
     public ByParams getByDate(String date) {
@@ -76,8 +81,20 @@ public class Cache {
         return m.getDatecreation().before(mostRecentExpiredDate);
     }
 
+    public int getHits() {
+        return this.hits;
+    }
+
+    public int getMisses() {
+        return this.misses;
+    }
+
+    public int getRequest_count() {
+        return this.request_count;
+    }
+
     @Scheduled(fixedRate = 60 * 1000)
-    public void cleanExpiredCachedMeasurements() {
+    public void cleanExpiredCache() {
         logger.info("Clean expired cached data");
         Date ExpiredDate = new Date(System.currentTimeMillis() - this.timeToLive * 1000);
         List<ByParams> expiredDates = covidRepository.findAllByDatecreationIsLessThanEqual(ExpiredDate);

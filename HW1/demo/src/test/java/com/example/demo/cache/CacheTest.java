@@ -3,8 +3,16 @@ package com.example.demo.cache;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import com.example.demo.entities.ByParams;
@@ -37,7 +45,6 @@ public class CacheTest {
 
     @BeforeEach
     void setUp() {
-        cache = new Cache();
         ByParams byParams = new ByParams();
         this.byParams = byParams;
         this.active = 12345;
@@ -58,7 +65,7 @@ public class CacheTest {
     }
 
     @Test
-    void addValueTest() {
+    void testWithRightParams() {
 
         when(covidRepository.findByDateAndCountry(this.date, this.country))
                 .thenReturn(this.byParams);
@@ -66,17 +73,98 @@ public class CacheTest {
 
         assertNotNull(cacheParams);
 
-        // assertEquals(0, byParams.size());
-        // cache.addToCache(new ByParams("2020-11-11", "2020-11-11", 12345, 14, 23, 100,
-        // 4000,
-        // 4000, 12, 54, 0.0123, "Portugal"));
-        // assertEquals(1, this.cache.getCacheSize());
+        assertEquals(this.active, cacheParams.getActive());
+        assertEquals(this.confirmed, cacheParams.getConfirmed());
+        assertEquals(this.recovered, cacheParams.getRecovered());
+        assertEquals(this.deaths, cacheParams.getDeaths());
+        assertEquals(this.date, cacheParams.getDate());
+        assertEquals(this.country, cacheParams.getCountry());
+        assertEquals(this.datecreation, cacheParams.getDatecreation());
+        assertEquals(0, cacheParams.getActive_diff());
+        assertEquals(0, cacheParams.getConfirmed_diff());
+        assertEquals(0, cacheParams.getDeaths_diff());
+        assertEquals(0, cacheParams.getRecovered_diff());
+        assertNull(cacheParams.getFatality_rate());
+        assertNull(cacheParams.getLast_updated());
+
+        verify(covidRepository, times(1)).findByDateAndCountry(anyString(), anyString());
     }
 
-    // @Test
-    // void testHasExpiredValidMeasurement() {
-    // assertFalse(cache.hasExpired(this.byParams));
-    // }
+    @Test
+    void testInvalidCountry() {
+        when(covidRepository.findByCountry("País Inventado"))
+                .thenReturn(null);
+
+        ByParams cacheParams = cache.getByCountry("País Inventado");
+
+        assertNull(cacheParams);
+
+        verify(covidRepository, times(1)).findByCountry(anyString());
+
+    }
+
+    @Test
+    void testInvalidDate() {
+        when(covidRepository.findByDate("2020-2020-2020"))
+                .thenReturn(null);
+
+        ByParams cacheParams = cache.getByDate("2020-2020-2020");
+
+        assertNull(cacheParams);
+
+        verify(covidRepository, times(1)).findByDate(anyString());
+
+    }
+
+    @Test
+    void testGetExpiredMeasurement() {
+        this.datecreation = new Date(System.currentTimeMillis() - 125 * 1000); // more than 120 sec
+        this.byParams.setDatecreation(this.datecreation);
+
+        when(covidRepository.findByDateAndCountry(this.date, this.country))
+                .thenReturn(this.byParams);
+        ByParams cacheParams = cache.getByParametros(this.date, this.country);
+
+        assertNull(cacheParams);
+
+        verify(covidRepository, times(1)).findByDateAndCountry(anyString(), anyString());
+    }
+
+    @Test
+    void testScheduleCleaningCache() {
+        this.datecreation = new Date(System.currentTimeMillis() - 125 * 1000); // A date with more that 120 sec
+        this.byParams.setDatecreation(this.datecreation);
+        when(covidRepository.findAllByDatecreationIsLessThanEqual(any(Date.class)))
+                .thenReturn(new ArrayList<>(Arrays.asList(
+                        this.byParams)));
+
+        cache.cleanExpiredCache();
+
+        verify(covidRepository, times(1)).findAllByDatecreationIsLessThanEqual(any(Date.class));
+
+        verify(covidRepository, times(1)).delete(this.byParams);
+
+        assertNull(cache.getByParametros(this.date, this.country));
+
+    }
+
+    @Test
+    void testHasExpiredValid() {
+        assertFalse(cache.hasExpired(this.byParams));
+    }
+
+    @Test
+    void testHasExpiredInvalid() {
+        this.datecreation = new Date(System.currentTimeMillis() - 125 * 1000); // A date with more that 120 sec
+        this.byParams.setDatecreation(datecreation);
+        assertTrue(cache.hasExpired(this.byParams));
+    }
+
+    @Test
+    void testDelete() {
+        cache.covidRepository.delete(this.byParams);
+        verify(covidRepository, times(1)).delete(this.byParams);
+    }
 
     @AfterEach
     void tearDown() {

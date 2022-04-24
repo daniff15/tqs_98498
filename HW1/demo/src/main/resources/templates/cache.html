@@ -25,7 +25,7 @@
 
             <div class="col-3 ml-auto text-right order-2">
               <div class="site-logo">
-                <a href="/index" class="font-weight-bold text-white"><img style="width: 200px; " src="../images/image.png" /></a>
+                <a href="/" class="font-weight-bold text-white"><img style="width: 200px; " src="../images/image.png" /></a>
               </div>
             </div>
             
@@ -33,7 +33,7 @@
               <nav class="ml-auto" role="navigation">
                 <ul class="navbar-nav" style="display: flex; flex-direction: row;">
                   <li class="helpers">Search:</li>
-                  <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili"><a style="color: black;" href="/index" class="nav-link">Country</a></li>
+                  <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili"><a style="color: black;" href="/" class="nav-link">Country</a></li>
                   <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili" ><a style="color: black;" href="/date" class="nav-link">Date</a></li>
                   <li style="padding-left: 20px; padding-right: 20px;" class="nav-item lili" ><a style="color: black;" href="/countrydate" class="nav-link">Country&Date</a></li>
                   <li class="helpers">Help:</li>
@@ -47,22 +47,29 @@
         <div style="margin-top: 2%;">
           <div class="container" style="height:max-content;">
             <h3 style="color: rgb(31, 19, 19); text-align: center;">Cache</h3>
+            <form action="#" th:action="@{/cache}" method="post">
+              <div class="col-lg-12">
+                <div class="col-md-12">
+                  <button class="btn btn-secondary btn-sm" id="btn" type="submit" style="margin-left: 44%; margin-top: 5%;">Get Cache Details</button>
+                </div>
+              </div>
+            </form>
             <div class="text-left" style="margin-top: 5%;">
               <div class="row justify-content-center">
                 <div class="col-lg-3" style="margin-right: 70%;">
-                    <table class="table styled-table" style="background-color: #e7ebee; margin-top: 30%; width: 1000px;">
+                    <table class="table styled-table" style="background-color: #e7ebee; margin-top: 15%; width: 1000px;">
                         <tbody>
                           <tr>
                             <th scope="row">#Requests</th>
-                            <td>45</th>
+                            <td th:text="${requests}">45</th>
                           </tr>
                           <tr>
                             <th scope="row">Hits</th>
-                            <td>10</td>
+                            <td th:text="${hits}">10</td>
                           </tr>
                           <tr>
                             <th scope="row">Misses</th>
-                            <td>7</td>
+                            <td th:text="${misses}">7</td>
                           </tr>
                         </tbody>
                       </table>

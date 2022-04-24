@@ -12,7 +12,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -37,10 +39,11 @@ public class CovidService {
 
     private static final Logger logger = LoggerFactory.getLogger(CovidService.class);
 
-    public ByParams getByDate(String dateURL) throws IOException, InterruptedException {
+    public ByParams getByDate(String dateURL) throws URISyntaxException, IOException, InterruptedException {
         logger.info("Getting Data for date {} in the cache", dateURL);
 
         if (cache.getByDate(dateURL) == null) {
+            cache.addMiss();
             logger.info("Data not in cache");
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(baseURL + "/reports/total?date=" + dateURL))
@@ -57,16 +60,22 @@ public class CovidService {
             // }
             ByParams byParams = convertJSONbyDatetoByParams(jo);
             covidRepository.save(byParams);
+            logger.info("hits ---  " + cache.getHits() + " MISSES --- " + cache.getMisses());
+
             return byParams;
         } else {
             logger.info("Data retrieved from cache");
+            cache.addHit();
+            logger.info("hits ---  " + cache.getHits() + " MISSES --- " + cache.getMisses());
             return cache.getByDate(dateURL);
         }
+
     }
 
     public ByParams getByCountry(String country) throws URISyntaxException, IOException, InterruptedException {
 
         if (cache.getByCountry(country) == null) {
+            cache.addMiss();
             logger.info("Data not in cache");
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(baseURL + "/reports?region_name=" + country))
@@ -83,6 +92,7 @@ public class CovidService {
             return byParams;
 
         } else {
+            cache.addHit();
             logger.info("Data retrieved from cache");
             return cache.getByCountry(country);
         }
@@ -92,6 +102,7 @@ public class CovidService {
             throws URISyntaxException, IOException, InterruptedException {
 
         if (cache.getByParametros(dateURL, countryURL) == null) {
+            cache.addMiss();
             logger.info("Data not in cache");
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(
@@ -109,6 +120,7 @@ public class CovidService {
             covidRepository.save(byParams);
             return byParams;
         } else {
+            cache.addHit();
             logger.info("Data retrieved from cache");
             return cache.getByParametros(dateURL, countryURL);
         }
@@ -210,5 +222,13 @@ public class CovidService {
 
     public ByParams save(ByParams any) {
         return covidRepository.save(any);
+    }
+
+    public Map<String, Integer> getCacheDetails() {
+        HashMap<String, Integer> response = new HashMap<>();
+        response.put("hits", cache.getHits());
+        response.put("misses", cache.getMisses());
+        response.put("requests", cache.getHits() + cache.getMisses());
+        return response;
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.net.URISyntaxException;
+import java.util.Map;
 import java.lang.InterruptedException;
 import java.io.IOException;
 
@@ -34,6 +35,11 @@ public class CovidController {
             @PathVariable(value = "country") String country)
             throws IOException, URISyntaxException, InterruptedException {
         return covidService.getByParams(date, country);
+    }
+
+    @GetMapping(value = "/cache")
+    public Map<String, Integer> getCacheDetails() {
+        return covidService.getCacheDetails();
     }
 
 }

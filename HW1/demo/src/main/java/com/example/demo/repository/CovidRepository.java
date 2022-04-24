@@ -1,6 +1,6 @@
 package com.example.demo.repository;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import com.example.demo.entities.ByParams;

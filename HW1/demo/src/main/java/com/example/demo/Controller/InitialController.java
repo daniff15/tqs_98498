@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.example.demo.entities.ByParams;
 import com.example.demo.entities.forms.DateCountryTemplate;
 import com.example.demo.entities.forms.ForTemplate;
 import com.example.demo.service.CovidService;
@@ -39,6 +41,18 @@ public class InitialController {
 		return new DateCountryTemplate();
 	}
 
+	@GetMapping("/")
+	public String getFirst(Model model) {
+		try {
+			countries = covidService.getCountries();
+		} catch (IOException | URISyntaxException | InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		model.addAttribute("countries", countries);
+		return "index";
+	}
+
 	@GetMapping("/index")
 	public String getIndex(Model model) {
 		try {
@@ -52,62 +66,38 @@ public class InitialController {
 	}
 
 	@PostMapping("/index")
-	public String submitSearch(@ModelAttribute ForTemplate forTemplate, Model model) {
+	public String submitSearch(@ModelAttribute ForTemplate forTemplate, Model model)
+			throws URISyntaxException, IOException, InterruptedException {
 		model.addAttribute("countries", countries);
-		try {
-			model.addAttribute("infected", covidService.getByCountry(forTemplate.getName()).getConfirmed());
-			model.addAttribute("recovered", covidService.getByCountry(forTemplate.getName()).getRecovered());
-			model.addAttribute("deaths", covidService.getByCountry(forTemplate.getName()).getDeaths());
-			model.addAttribute("active", covidService.getByCountry(forTemplate.getName()).getActive());
-			model.addAttribute("last_updated", covidService.getByCountry(forTemplate.getName()).getLast_updated());
-			model.addAttribute("selected", forTemplate.getName());
-		} catch (IOException | URISyntaxException | InterruptedException e) {
-			e.printStackTrace();
-		}
+
+		ByParams byParams = covidService.getByCountry(forTemplate.getName());
+
+		model.addAttribute("infected", byParams.getConfirmed());
+		model.addAttribute("recovered", byParams.getRecovered());
+		model.addAttribute("deaths", byParams.getDeaths());
+		model.addAttribute("active", byParams.getActive());
+		model.addAttribute("last_updated", byParams.getLast_updated());
+		model.addAttribute("selected", forTemplate.getName());
 		return "index";
-	}
-
-	@PostMapping("/date")
-	public String submitSearchDate(@ModelAttribute ForTemplate forTemplate, Model model) {
-
-		try {
-			model.addAttribute("infected", covidService.getByDate(forTemplate.getName()).getConfirmed());
-			model.addAttribute("recovered", covidService.getByDate(forTemplate.getName()).getRecovered());
-			model.addAttribute("deaths", covidService.getByDate(forTemplate.getName()).getDeaths());
-			model.addAttribute("active", covidService.getByDate(forTemplate.getName()).getActive());
-			model.addAttribute("last_updated", covidService.getByDate(forTemplate.getName()).getLast_updated());
-			model.addAttribute("selected", forTemplate.getName());
-		} catch (IOException | URISyntaxException | InterruptedException e) {
-			e.printStackTrace();
-		}
-		return "date";
-	}
-
-	@PostMapping("/countrydate")
-	public String submitSearchDateCountry(@ModelAttribute DateCountryTemplate forTemplate, Model model) {
-
-		model.addAttribute("countries", countries);
-
-		try {
-			model.addAttribute("infected",
-					covidService.getByParams(forTemplate.getDate(), forTemplate.getCountryName()).getConfirmed());
-			model.addAttribute("recovered",
-					covidService.getByParams(forTemplate.getDate(), forTemplate.getCountryName()).getRecovered());
-			model.addAttribute("deaths",
-					covidService.getByParams(forTemplate.getDate(), forTemplate.getCountryName()).getDeaths());
-			model.addAttribute("active",
-					covidService.getByParams(forTemplate.getDate(), forTemplate.getCountryName()).getActive());
-			model.addAttribute("last_updated",
-					covidService.getByParams(forTemplate.getDate(), forTemplate.getCountryName()).getLast_updated());
-			model.addAttribute("selected", forTemplate.getCountryName());
-		} catch (IOException | URISyntaxException | InterruptedException e) {
-			e.printStackTrace();
-		}
-		return "countrydate";
 	}
 
 	@GetMapping("/date")
 	public String getDate() {
+		return "date";
+	}
+
+	@PostMapping("/date")
+	public String submitSearchDate(@ModelAttribute ForTemplate forTemplate, Model model)
+			throws URISyntaxException, IOException, InterruptedException {
+
+		ByParams byParams = covidService.getByDate(forTemplate.getName());
+
+		model.addAttribute("infected", byParams.getConfirmed());
+		model.addAttribute("recovered", byParams.getRecovered());
+		model.addAttribute("deaths", byParams.getDeaths());
+		model.addAttribute("active", byParams.getActive());
+		model.addAttribute("last_updated", byParams.getLast_updated());
+		model.addAttribute("selected", forTemplate.getName());
 		return "date";
 	}
 
@@ -123,8 +113,42 @@ public class InitialController {
 		return "countrydate";
 	}
 
+	@PostMapping("/countrydate")
+	public String submitSearchDateCountry(@ModelAttribute DateCountryTemplate forTemplate, Model model)
+			throws URISyntaxException, IOException, InterruptedException {
+
+		model.addAttribute("countries", countries);
+
+		ByParams byParams = covidService.getByParams(forTemplate.getDate(), forTemplate.getCountryName());
+
+		model.addAttribute("infected",
+				byParams.getConfirmed());
+		model.addAttribute("recovered",
+				byParams.getRecovered());
+		model.addAttribute("deaths",
+				byParams.getDeaths());
+		model.addAttribute("active",
+				byParams.getActive());
+		model.addAttribute("last_updated",
+				byParams.getLast_updated());
+		model.addAttribute("selected", forTemplate.getCountryName());
+		return "countrydate";
+	}
+
 	@GetMapping("/cache")
 	public String getCache() {
+		return "cache";
+	}
+
+	@PostMapping("/cache")
+	public String submitCache(Model model)
+			throws URISyntaxException, IOException, InterruptedException {
+
+		Map<String, Integer> cacheDetails = covidService.getCacheDetails();
+
+		model.addAttribute("hits", cacheDetails.get("hits"));
+		model.addAttribute("misses", cacheDetails.get("misses"));
+		model.addAttribute("requests", cacheDetails.get("hits") + cacheDetails.get("misses"));
 		return "cache";
 	}
 
