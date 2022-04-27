@@ -28,10 +28,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class CacheTest {
-    private Integer active;
-    private Integer confirmed;
-    private Integer recovered;
-    private Integer deaths;
+    private int active;
+    private int confirmed;
+    private int recovered;
+    private int deaths;
     private String date;
     private Date datecreation;
     private String country;

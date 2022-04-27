@@ -1,14 +1,7 @@
 package com.example.demo.selenium;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -16,20 +9,17 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WebPageTest {
 
         private WebDriver driver;
-        private Map<String, Object> vars;
         JavascriptExecutor js;
 
         @BeforeEach
         void setup() {
                 driver = new ChromeDriver();
                 js = (JavascriptExecutor) driver;
-                vars = new HashMap<String, Object>();
         }
 
         @Test
