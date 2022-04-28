@@ -1,6 +1,5 @@
 package com.example.demo.resolver;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -11,41 +10,61 @@ import java.util.List;
 import com.example.demo.entities.ByParams;
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Resolver {
+    private static final Logger logger = LoggerFactory.getLogger(Resolver.class);
 
-    public String getResponse(String url) throws IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://covid-19-statistics.p.rapidapi.com" + url))
-                .header("X-RapidAPI-Host", "covid-19-statistics.p.rapidapi.com")
-                .header("X-RapidAPI-Key", "fb7bb9a35emshc06230b446762ddp1ed435jsn883017bf1d34")
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request,
-                HttpResponse.BodyHandlers.ofString());
+    public String getResponse(String url) throws Exception {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://covid-19-statistics.p.rapidapi.com" + url))
+                    .header("X-RapidAPI-Host", "covid-19-statistics.p.rapidapi.com")
+                    .header("X-RapidAPI-Key", "fb7bb9a35emshc06230b446762ddp1ed435jsn883017bf1d34")
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .build();
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request,
+                    HttpResponse.BodyHandlers.ofString());
 
-        return response.body();
+            return response.body();
+        } catch (Exception e) {
+            logger.error("Bad URL given");
+            throw new Exception();
+        }
+
     }
 
-    public ByParams convertJSONbyDatetoByParams(String response) {
+    public ByParams convertJSONbyDatetoByParams(String response) throws Exception {
         JSONObject jo = new JSONObject(response);
+        if (jo.has("data")) {
+            if (jo.getJSONObject("data") != null) {
+                String date = jo.getJSONObject("data").getString("date");
+                int confirmed_diff = jo.getJSONObject("data").getInt("confirmed_diff");
+                int active_diff = jo.getJSONObject("data").getInt("active_diff");
+                int deaths_diff = jo.getJSONObject("data").getInt("deaths_diff");
+                int recovered = jo.getJSONObject("data").getInt("recovered");
+                int recovered_diff = jo.getJSONObject("data").getInt("recovered_diff");
+                Double fatality_rate = jo.getJSONObject("data").getDouble("fatality_rate");
+                String last_updated = jo.getJSONObject("data").getString("last_update");
+                int active = jo.getJSONObject("data").getInt("active");
+                int confirmed = jo.getJSONObject("data").getInt("confirmed");
+                int deaths = jo.getJSONObject("data").getInt("deaths");
 
-        String date = jo.getJSONObject("data").getString("date");
-        int confirmed_diff = jo.getJSONObject("data").getInt("confirmed_diff");
-        int active_diff = jo.getJSONObject("data").getInt("active_diff");
-        int deaths_diff = jo.getJSONObject("data").getInt("deaths_diff");
-        int recovered = jo.getJSONObject("data").getInt("recovered");
-        int recovered_diff = jo.getJSONObject("data").getInt("recovered_diff");
-        Double fatality_rate = jo.getJSONObject("data").getDouble("fatality_rate");
-        String last_updated = jo.getJSONObject("data").getString("last_update");
-        int active = jo.getJSONObject("data").getInt("active");
-        int confirmed = jo.getJSONObject("data").getInt("confirmed");
-        int deaths = jo.getJSONObject("data").getInt("deaths");
+                return new ByParams(date, last_updated, confirmed, confirmed_diff, deaths, deaths_diff, recovered,
+                        recovered_diff, active, active_diff, fatality_rate, "all");
+            } else {
+                logger.error("Searched for an advanced Date. Invalid!!!");
+                throw new Exception("There is no data for that Date!");
+            }
+        } else {
+            String message = jo.getJSONObject("error").getJSONArray("date").getString(0);
+            logger.error("Invalid format given!");
+            throw new Exception(message);
+        }
 
-        return new ByParams(date, last_updated, confirmed, confirmed_diff, deaths, deaths_diff, recovered,
-                recovered_diff, active, active_diff, fatality_rate, "all");
     }
 
     public ByParams convertJSONbyCountrytoByParams(String response, String country) {

@@ -5,13 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import java.net.URISyntaxException;
-import java.lang.InterruptedException;
 
 import com.example.demo.cache.Cache;
 import com.example.demo.entities.ByParams;
@@ -32,7 +28,7 @@ public class CovidService {
 
     private static final Logger logger = LoggerFactory.getLogger(CovidService.class);
 
-    public ByParams getByDate(String dateURL) throws URISyntaxException, IOException, InterruptedException {
+    public ByParams getByDate(String dateURL) throws Exception {
         logger.info("Getting Data for date {} in the cache", dateURL);
 
         ByParams getPelaDate = cache.getByDate(dateURL);
@@ -58,7 +54,7 @@ public class CovidService {
 
     }
 
-    public ByParams getByCountry(String country) throws URISyntaxException, IOException, InterruptedException {
+    public ByParams getByCountry(String country) throws Exception {
 
         ByParams getPeloCountry = cache.getByCountry(country);
 
@@ -80,7 +76,7 @@ public class CovidService {
     }
 
     public ByParams getByParams(String dateURL, String countryURL)
-            throws URISyntaxException, IOException, InterruptedException {
+            throws Exception {
 
         ByParams getPeloCountryDate = cache.getByParametros(dateURL, countryURL);
 
@@ -101,7 +97,7 @@ public class CovidService {
         }
     }
 
-    public List<String> getCountries() throws URISyntaxException, IOException, InterruptedException {
+    public List<String> getCountries() throws Exception {
         String url = "/regions";
         String response = resolver.getResponse(url);
 

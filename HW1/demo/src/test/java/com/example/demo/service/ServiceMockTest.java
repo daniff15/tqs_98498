@@ -1,7 +1,5 @@
 package com.example.demo.service;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +43,7 @@ public class ServiceMockTest {
     private CovidService covidService;
 
     @BeforeEach
-    public void setUp() throws URISyntaxException, IOException, InterruptedException {
+    public void setUp() throws Exception {
 
         ByParams byParams = new ByParams();
         this.byParams = byParams;
@@ -82,7 +80,7 @@ public class ServiceMockTest {
 
     @Test
     public void whenSearchByValidCountryInCache_returnByParams()
-            throws URISyntaxException, IOException, InterruptedException {
+            throws Exception {
 
         ByParams found = covidService.getByCountry("Portugal");
 
@@ -92,7 +90,7 @@ public class ServiceMockTest {
 
     @Test
     public void whenSearchByValidDateInCache_returnByParams()
-            throws URISyntaxException, IOException, InterruptedException {
+            throws Exception {
 
         ByParams found = covidService.getByDate("2020-11-11");
 
@@ -102,7 +100,7 @@ public class ServiceMockTest {
 
     @Test
     public void whenSearchByValidCountryAndDateInCache_returnByParams()
-            throws URISyntaxException, IOException, InterruptedException {
+            throws Exception {
 
         ByParams found = covidService.getByParams("2020-11-11", "Portugal");
 
@@ -111,7 +109,7 @@ public class ServiceMockTest {
     }
 
     @Test
-    void whenValidCountryInCache_thenShouldExist() throws URISyntaxException, IOException, InterruptedException {
+    void whenValidCountryInCache_thenShouldExist() throws Exception {
         ByParams exists = covidService.getByCountry("Portugal");
         boolean classExists = false;
         if (exists != null) {
@@ -124,7 +122,7 @@ public class ServiceMockTest {
     }
 
     @Test
-    void whenValidDateInCache_thenShouldExist() throws URISyntaxException, IOException, InterruptedException {
+    void whenValidDateInCache_thenShouldExist() throws Exception {
         ByParams exists = covidService.getByDate("2020-11-11");
         boolean classExists = false;
         if (exists != null) {
@@ -137,7 +135,7 @@ public class ServiceMockTest {
     }
 
     @Test
-    void whenValidCountryAndDateInCache_thenShouldExist() throws URISyntaxException, IOException, InterruptedException {
+    void whenValidCountryAndDateInCache_thenShouldExist() throws Exception {
         ByParams exists = covidService.getByParams("2020-11-11", "Portugal");
         boolean classExists = false;
         if (exists != null) {
@@ -150,7 +148,7 @@ public class ServiceMockTest {
     }
 
     @Test
-    void whenSearchInvalidCountry_thenShouldNotBeFound() throws URISyntaxException, IOException, InterruptedException {
+    void whenSearchInvalidCountry_thenShouldNotBeFound() throws Exception {
 
         ByParams exists = covidService.getByCountry("dont_exist");
         boolean classExists = false;
@@ -165,7 +163,7 @@ public class ServiceMockTest {
     }
 
     @Test
-    void whenSearchInvalidDate_thenShouldNotBeFound() throws URISyntaxException, IOException, InterruptedException {
+    void whenSearchInvalidDate_thenShouldNotBeFound() throws Exception {
 
         ByParams exists = covidService.getByDate("2020-2020-2020");
         boolean classExists = false;
@@ -181,7 +179,7 @@ public class ServiceMockTest {
 
     @Test
     void whenSearchInvalidParameters_thenShouldNotBeFound()
-            throws URISyntaxException, IOException, InterruptedException {
+            throws Exception {
 
         ByParams exists = covidService.getByParams("2020-2020-2020", "dont_exist");
         boolean classExists = false;

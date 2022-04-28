@@ -42,7 +42,7 @@ public class InitialController {
 	}
 
 	@GetMapping("/")
-	public String getFirst(Model model) {
+	public String getFirst(Model model) throws Exception {
 		try {
 			countries = covidService.getCountries();
 		} catch (IOException | URISyntaxException | InterruptedException e) {
@@ -54,7 +54,7 @@ public class InitialController {
 	}
 
 	@GetMapping("/index")
-	public String getIndex(Model model) {
+	public String getIndex(Model model) throws Exception {
 		try {
 			countries = covidService.getCountries();
 		} catch (IOException | URISyntaxException | InterruptedException e) {
@@ -67,7 +67,7 @@ public class InitialController {
 
 	@PostMapping("/index")
 	public String submitSearch(@ModelAttribute ForTemplate forTemplate, Model model)
-			throws URISyntaxException, IOException, InterruptedException {
+			throws Exception {
 		model.addAttribute("countries", countries);
 
 		ByParams byParams = covidService.getByCountry(forTemplate.getName());
@@ -88,7 +88,7 @@ public class InitialController {
 
 	@PostMapping("/date")
 	public String submitSearchDate(@ModelAttribute ForTemplate forTemplate, Model model)
-			throws URISyntaxException, IOException, InterruptedException {
+			throws Exception {
 
 		ByParams byParams = covidService.getByDate(forTemplate.getName());
 
@@ -102,7 +102,7 @@ public class InitialController {
 	}
 
 	@GetMapping("/countrydate")
-	public String getCountryAndDate(Model model) {
+	public String getCountryAndDate(Model model) throws Exception {
 		try {
 			countries = covidService.getCountries();
 		} catch (IOException | URISyntaxException | InterruptedException e) {
@@ -115,7 +115,7 @@ public class InitialController {
 
 	@PostMapping("/countrydate")
 	public String submitSearchDateCountry(@ModelAttribute DateCountryTemplate forTemplate, Model model)
-			throws URISyntaxException, IOException, InterruptedException {
+			throws Exception {
 
 		model.addAttribute("countries", countries);
 
