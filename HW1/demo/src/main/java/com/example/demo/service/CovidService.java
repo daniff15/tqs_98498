@@ -39,9 +39,6 @@ public class CovidService {
             String url = "/reports/total?date=" + dateURL;
             String response = resolver.getResponse(url);
 
-            // if (jo.has("error")) {
-            // throw new Exception("Not in right Format (yyyy-mm--dd)");
-            // }
             ByParams byParams = resolver.convertJSONbyDatetoByParams(response);
             covidRepository.save(byParams);
 
