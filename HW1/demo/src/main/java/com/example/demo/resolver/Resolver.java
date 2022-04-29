@@ -114,8 +114,9 @@ public class Resolver {
         JSONObject jo = new JSONObject(response);
 
         if (jo.has("data")) {
-            JSONArray item = (JSONArray) jo.get("data");
-            if (item.length() != 0) {
+            Object item = jo.get("data");
+            String itemToString = item.toString();
+            if (itemToString.contains("date")) {
                 String date = jo.getJSONArray("data").getJSONObject(0).getString("date");
                 int confirmed_diff = jo.getJSONArray("data").getJSONObject(0).getInt("confirmed_diff");
                 int active_diff = jo.getJSONArray("data").getJSONObject(0).getInt("active_diff");
@@ -130,6 +131,9 @@ public class Resolver {
 
                 return new ByParams(date, last_updated, confirmed, confirmed_diff, deaths, deaths_diff, recovered,
                         recovered_diff, active, active_diff, fatality_rate, country);
+            } else if (itemToString.equals("[]")) {
+                logger.error("Searched for an advanced Date. Invalid!!!");
+                throw new Exception("There is no data for that Date!");
             } else {
                 logger.error("Invalid Parameters given!");
                 throw new Exception("Searched for an invalid Country or for an advanced Date!");
