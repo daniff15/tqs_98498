@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CovidRepository extends JpaRepository<ByParams, String> {
 
-    // private static final Logger log = LoggerFactory.getLogger(Cache.class);
     ByParams findByCountry(String country);
 
     ByParams findByDate(String date);

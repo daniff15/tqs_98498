@@ -2,6 +2,9 @@ package com.example.demo.resolver;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
@@ -50,6 +53,7 @@ public class ResolverTest {
         assertEquals(2, response.size());
         assertEquals(true, response.contains("Portugal"));
         assertEquals(true, response.contains("China"));
+
     }
 
     @Test
@@ -83,6 +87,7 @@ public class ResolverTest {
         assertThat(byParams.getActive()).isEqualTo(1044177);
         assertThat(byParams.getActive_diff()).isEqualTo(50156);
         assertThat(byParams.getFatality_rate()).isEqualTo(0.0574);
+
     }
 
     @Test

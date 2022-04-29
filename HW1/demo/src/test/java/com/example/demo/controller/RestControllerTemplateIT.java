@@ -13,6 +13,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Date;
 
@@ -27,6 +29,60 @@ public class RestControllerTemplateIT {
 
     @Autowired
     private CovidRepository covidRepository;
+
+    @Test
+    public void testAdvancedDate_thenBadRequest() {
+        ResponseEntity<ByParams> response = restTemplate.getForEntity(
+                getBaseUrl() + "/date/2023-07-07",
+                ByParams.class);
+
+        assertEquals(response.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Test
+    public void testBadFormatDate_thenBadRequest() {
+        ResponseEntity<ByParams> response = restTemplate.getForEntity(
+                getBaseUrl() + "/date/2032423-07-07",
+                ByParams.class);
+
+        assertEquals(response.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Test
+    public void testInvalidCountry_thenBadRequest() {
+        ResponseEntity<ByParams> response = restTemplate.getForEntity(
+                getBaseUrl() + "/country/dont_exist",
+                ByParams.class);
+
+        assertEquals(response.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Test
+    public void testAdvancedDate_inByParams_thenBadRequest() {
+        ResponseEntity<ByParams> response = restTemplate.getForEntity(
+                getBaseUrl() + "/date/2023-07-07/country/Portugal",
+                ByParams.class);
+
+        assertEquals(response.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Test
+    public void testBadFormatDate_inByParams_thenBadRequest() {
+        ResponseEntity<ByParams> response = restTemplate.getForEntity(
+                getBaseUrl() + "/date/2435023-07-07/country/Portugal",
+                ByParams.class);
+
+        assertEquals(response.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Test
+    public void testInvalidCountry_inByParams_thenBadRequest() {
+        ResponseEntity<ByParams> response = restTemplate.getForEntity(
+                getBaseUrl() + "/date/2020-07-07/country/dont_exist",
+                ByParams.class);
+
+        assertEquals(response.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @Test
     public void testRequestCountry_thenStatus200() {
@@ -87,5 +143,10 @@ public class RestControllerTemplateIT {
         byParams.setLast_updated((new Date(System.currentTimeMillis()).toString()));
 
         return byParams;
+    }
+
+    public String getBaseUrl() {
+        return "http://localhost:" + randomServerPort + "/api";
+
     }
 }
