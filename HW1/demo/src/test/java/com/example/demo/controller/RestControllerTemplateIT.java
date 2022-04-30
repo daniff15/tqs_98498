@@ -134,13 +134,13 @@ public class RestControllerTemplateIT {
         byParams.setRecovered(900000);
         byParams.setDeaths(50000);
         byParams.setCountry("Portugal");
-        byParams.setConfirmed_diff(1500);
-        byParams.setActive_diff(-15);
-        byParams.setDeaths_diff(12);
-        byParams.setRecovered_diff(3500);
-        byParams.setFatality_rate(0.035);
+        byParams.setConfirmedDiff(1500);
+        byParams.setActiveDiff(-15);
+        byParams.setDeathsDiff(12);
+        byParams.setRecoveredDiff(3500);
+        byParams.setFatalityRate(0.035);
         byParams.setDate("2020-07-20");
-        byParams.setLast_updated((new Date(System.currentTimeMillis()).toString()));
+        byParams.setLastUpdated((new Date(System.currentTimeMillis()).toString()));
 
         return byParams;
     }

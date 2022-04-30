@@ -25,8 +25,6 @@ public class WebPageTest {
         @Test
         public void countryDataTest() throws InterruptedException {
 
-                // ! AQUI À MEDIDA Q OS DIAS PASSAM OS TESTES MUDAM
-
                 driver.get("http://localhost:8080/index");
                 driver.manage().window().setSize(new Dimension(1866, 1053));
                 {
@@ -41,7 +39,7 @@ public class WebPageTest {
 
                 Thread.sleep(2000);
 
-                assertEquals("30338697",
+                assertEquals("124918",
                                 driver.findElement(
                                                 By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(1) > div > p:nth-child(2)"))
                                                 .getText());
@@ -51,12 +49,12 @@ public class WebPageTest {
                                                 By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(2) > div > p:nth-child(2)"))
                                                 .getText());
 
-                assertEquals("662802",
+                assertEquals("2002",
                                 driver.findElement(
                                                 By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(3) > div > p:nth-child(2)"))
                                                 .getText());
 
-                assertEquals("29675895",
+                assertEquals("122916",
                                 driver.findElement(
                                                 By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(4) > div > p:nth-child(2)"))
                                                 .getText());

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Cache {
+    private static final String EXPIREDMSG = "Data expired in cache";  // Compliant
 
     @Autowired
     CovidRepository covidRepository;
@@ -21,7 +22,7 @@ public class Cache {
     private int timeToLive; // in seconds
     private int hits = 0;
     private int misses = 0;
-    private int request_count = 0;
+    private int requestCount = 0;
 
     private static final Logger logger = LoggerFactory.getLogger(Cache.class);
 
@@ -40,24 +41,20 @@ public class Cache {
     public ByParams getByDate(String date) {
         ByParams byDate = covidRepository.findByDate(date);
 
-        if (byDate != null) {
-            if (hasExpired(byDate)) {
-                logger.info("Data expired in the cache");
-                covidRepository.delete(byDate);
-                return null;
-            }
+        if (byDate != null && hasExpired(byDate)) {
+            logger.info(EXPIREDMSG);
+            covidRepository.delete(byDate);
+            return null;
         }
         return byDate;
     }
 
     public ByParams getByCountry(String country) {
         ByParams byCountry = covidRepository.findByCountry(country);
-        if (byCountry != null) {
-            if (hasExpired(byCountry)) {
-                logger.info("Data expired in the cache");
-                covidRepository.delete(byCountry);
-                return null;
-            }
+        if (byCountry != null && hasExpired(byCountry)) {
+            logger.info(EXPIREDMSG);
+            covidRepository.delete(byCountry);
+            return null;
         }
         return byCountry;
     }
@@ -65,12 +62,10 @@ public class Cache {
     public ByParams getByParametros(String date, String country) {
         ByParams byParametros = covidRepository.findByDateAndCountry(date, country);
 
-        if (byParametros != null) {
-            if (hasExpired(byParametros)) {
-                logger.info("Data expired in the cache");
-                covidRepository.delete(byParametros);
-                return null;
-            }
+        if (byParametros != null && hasExpired(byParametros)) {
+            logger.info(EXPIREDMSG);
+            covidRepository.delete(byParametros);
+            return null;
         }
         return byParametros;
     }
@@ -89,15 +84,15 @@ public class Cache {
         return this.misses;
     }
 
-    public int getRequest_count() {
-        return this.request_count;
+    public int getRequestCount() {
+        return this.requestCount;
     }
 
     @Scheduled(fixedRate = 60 * 1000)
     public void cleanExpiredCache() {
         logger.info("Clean expired cached data");
-        Date ExpiredDate = new Date(System.currentTimeMillis() - this.timeToLive * 1000);
-        List<ByParams> expiredDates = covidRepository.findAllByDatecreationIsLessThanEqual(ExpiredDate);
+        Date expiredDate = new Date(System.currentTimeMillis() - this.timeToLive * 1000);
+        List<ByParams> expiredDates = covidRepository.findAllByDatecreationIsLessThanEqual(expiredDate);
 
         for (ByParams byParams : expiredDates) {
             logger.info("Deleting expired ByParams: {}", byParams);

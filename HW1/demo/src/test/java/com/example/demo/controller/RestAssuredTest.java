@@ -4,7 +4,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.example.demo.Controller.CovidController;
+import com.example.demo.controller.CovidController;
 import com.example.demo.entities.ByParams;
 import com.example.demo.service.CovidService;
 
@@ -40,7 +40,7 @@ public class RestAssuredTest {
         byParams.setRecovered(900000);
         byParams.setDeaths(50000);
         byParams.setCountry("Portugal");
-        byParams.setFatality_rate(0.0038);
+        byParams.setFatalityRate(0.0038);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class RestAssuredTest {
                 .and().body("recovered", equalTo(900000))
                 .and().body("deaths", equalTo(50000))
                 .and().body("country", equalTo("Portugal"))
-                .and().body("fatality_rate", equalTo(0.0038F));
+                .and().body("fatalityRate", equalTo(0.0038F));
 
         verify(covidService, times(1)).getByDate("2020-07-20");
     }
@@ -76,7 +76,7 @@ public class RestAssuredTest {
                 .and().body("recovered", equalTo(900000))
                 .and().body("deaths", equalTo(50000))
                 .and().body("country", equalTo("Portugal"))
-                .and().body("fatality_rate", equalTo(0.0038F));
+                .and().body("fatalityRate", equalTo(0.0038F));
 
         verify(covidService, times(1)).getByCountry("Portugal");
     }
@@ -95,7 +95,7 @@ public class RestAssuredTest {
                 .and().body("recovered", equalTo(900000))
                 .and().body("deaths", equalTo(50000))
                 .and().body("country", equalTo("Portugal"))
-                .and().body("fatality_rate", equalTo(0.0038F));
+                .and().body("fatalityRate", equalTo(0.0038F));
 
         verify(covidService, times(1)).getByParams("2020-07-20", "Portugal");
     }

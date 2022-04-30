@@ -1,5 +1,6 @@
 package com.example.demo.resolver;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.demo.entities.ByParams;
+import com.example.demo.exceptions.BadRequestException;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,8 +20,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class Resolver {
     private static final Logger logger = LoggerFactory.getLogger(Resolver.class);
+    private static final String CONFIRMEDDIFF = "confirmed_diff";
+    private static final String ACTIVEDIFF = "active_diff";
+    private static final String DEATHSDIFF = "deaths_diff";
+    private static final String RECOVERED = "recovered";
+    private static final String RECOVEREDDIFF = "recovered_diff";
+    private static final String FATALITYRATE = "fatality_rate";
+    private static final String LASTUPDATED = "last_update";
+    private static final String ACTIVE = "active";
+    private static final String CONFIRMED = "confirmed";
+    private static final String DEATHS = "deaths";
 
-    public String getResponse(String url) throws Exception {
+    public String getResponse(String url) throws InterruptedException, IOException {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://covid-19-statistics.p.rapidapi.com" + url))
@@ -31,14 +43,15 @@ public class Resolver {
                     HttpResponse.BodyHandlers.ofString());
 
             return response.body();
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             logger.error("Bad URL given");
-            throw new Exception();
+            Thread.currentThread().interrupt();
+            throw new InterruptedException();
         }
 
     }
 
-    public ByParams convertJSONbyDatetoByParams(String response) throws Exception {
+    public ByParams convertJSONbyDatetoByParams(String response) throws BadRequestException {
         JSONObject jo = new JSONObject(response);
         if (jo.has("data")) {
             Object item = jo.get("data");
@@ -46,71 +59,57 @@ public class Resolver {
             // Se isto acontece é pq se procurou por uma data mais avançada
             if (itemToString.equals("[]")) {
                 logger.error("Searched for an advanced Date. Invalid!!!");
-                throw new Exception("There is no data for that Date!");
+                throw new BadRequestException("There is no data for that Date!");
             } else {
                 String date = jo.getJSONObject("data").getString("date");
-                int confirmed_diff = jo.getJSONObject("data").getInt("confirmed_diff");
-                int active_diff = jo.getJSONObject("data").getInt("active_diff");
-                int deaths_diff = jo.getJSONObject("data").getInt("deaths_diff");
-                int recovered = jo.getJSONObject("data").getInt("recovered");
-                int recovered_diff = jo.getJSONObject("data").getInt("recovered_diff");
-                Double fatality_rate = jo.getJSONObject("data").getDouble("fatality_rate");
-                String last_updated = jo.getJSONObject("data").getString("last_update");
-                int active = jo.getJSONObject("data").getInt("active");
-                int confirmed = jo.getJSONObject("data").getInt("confirmed");
-                int deaths = jo.getJSONObject("data").getInt("deaths");
+                int confirmedDiff = jo.getJSONObject("data").getInt(CONFIRMEDDIFF);
+                int activeDiff = jo.getJSONObject("data").getInt(ACTIVEDIFF);
+                int deathsDiff = jo.getJSONObject("data").getInt(DEATHSDIFF);
+                int recovered = jo.getJSONObject("data").getInt(RECOVERED);
+                int recoveredDiff = jo.getJSONObject("data").getInt(RECOVEREDDIFF);
+                Double fatalityRate = jo.getJSONObject("data").getDouble(FATALITYRATE);
+                String lastUpdated = jo.getJSONObject("data").getString(LASTUPDATED);
+                int active = jo.getJSONObject("data").getInt(ACTIVE);
+                int confirmed = jo.getJSONObject("data").getInt(CONFIRMED);
+                int deaths = jo.getJSONObject("data").getInt(DEATHS);
 
-                return new ByParams(date, last_updated, confirmed, confirmed_diff, deaths, deaths_diff, recovered,
-                        recovered_diff, active, active_diff, fatality_rate, "all");
+                return new ByParams(date, lastUpdated, confirmed, confirmedDiff, deaths, deathsDiff, recovered,
+                        recoveredDiff, active, activeDiff, fatalityRate, "all");
             }
         } else {
             String message = jo.getJSONObject("error").getJSONArray("date").getString(0);
             logger.error("Invalid format given!");
-            throw new Exception(message);
+            throw new BadRequestException(message);
         }
 
     }
 
-    public ByParams convertJSONbyCountrytoByParams(String response, String country) throws Exception {
+    public ByParams convertJSONbyCountrytoByParams(String response, String country) throws BadRequestException {
         JSONObject jo = new JSONObject(response);
         JSONArray item = (JSONArray) jo.get("data");
         if (item.length() != 0) {
             String date = jo.getJSONArray("data").getJSONObject(0).getString("date");
-            String last_updated = jo.getJSONArray("data").getJSONObject(0).getString("last_update");
-            int confirmed_diff = 0;
-            int active_diff = 0;
-            int deaths_diff = 0;
-            int recovered = 0;
-            int recovered_diff = 0;
-            Double fatality_rate = 0.0;
-            int active = 0;
-            int confirmed = 0;
-            int deaths = 0;
+            String lastUpdated = jo.getJSONArray("data").getJSONObject(0).getString(LASTUPDATED);
+            int confirmedDiff = jo.getJSONArray("data").getJSONObject(0).getInt(CONFIRMEDDIFF);
+            int activeDiff = jo.getJSONArray("data").getJSONObject(0).getInt(ACTIVEDIFF);
+            int deathsDiff = jo.getJSONArray("data").getJSONObject(0).getInt(DEATHSDIFF);
+            int recovered = jo.getJSONArray("data").getJSONObject(0).getInt(RECOVERED);
+            int recoveredDiff = jo.getJSONArray("data").getJSONObject(0).getInt(RECOVEREDDIFF);
+            Double fatalityRate = jo.getJSONArray("data").getJSONObject(0).getDouble(FATALITYRATE);
+            int active = jo.getJSONArray("data").getJSONObject(0).getInt(ACTIVE);
+            int confirmed = jo.getJSONArray("data").getJSONObject(0).getInt(CONFIRMED);
+            int deaths = jo.getJSONArray("data").getJSONObject(0).getInt(DEATHS);
 
-            for (int i = 0; i < jo.getJSONArray("data").length(); i++) {
-                confirmed_diff += jo.getJSONArray("data").getJSONObject(i).getInt("confirmed_diff");
-                active_diff += jo.getJSONArray("data").getJSONObject(i).getInt("active_diff");
-                deaths_diff += jo.getJSONArray("data").getJSONObject(i).getInt("deaths_diff");
-                recovered += jo.getJSONArray("data").getJSONObject(i).getInt("recovered");
-                recovered_diff += jo.getJSONArray("data").getJSONObject(i).getInt("recovered_diff");
-                fatality_rate += jo.getJSONArray("data").getJSONObject(i).getDouble("fatality_rate");
-                active += jo.getJSONArray("data").getJSONObject(i).getInt("active");
-                confirmed += jo.getJSONArray("data").getJSONObject(i).getInt("confirmed");
-                deaths += jo.getJSONArray("data").getJSONObject(i).getInt("deaths");
-            }
-
-            fatality_rate = fatality_rate / jo.getJSONArray("data").length();
-
-            return new ByParams(date, last_updated, confirmed, confirmed_diff, deaths, deaths_diff, recovered,
-                    recovered_diff, active, active_diff, fatality_rate, country);
+            return new ByParams(date, lastUpdated, confirmed, confirmedDiff, deaths, deathsDiff, recovered,
+                    recoveredDiff, active, activeDiff, fatalityRate, country);
         } else {
             logger.error("Invalid Country!");
-            throw new Exception("Searched for an invalid Country!");
+            throw new BadRequestException("Searched for an invalid Country!");
         }
 
     }
 
-    public ByParams convertJSONbyParamstoByParams(String response, String country) throws Exception {
+    public ByParams convertJSONbyParamstoByParams(String response, String country) throws BadRequestException {
         JSONObject jo = new JSONObject(response);
 
         if (jo.has("data")) {
@@ -118,30 +117,30 @@ public class Resolver {
             String itemToString = item.toString();
             if (itemToString.contains("date")) {
                 String date = jo.getJSONArray("data").getJSONObject(0).getString("date");
-                int confirmed_diff = jo.getJSONArray("data").getJSONObject(0).getInt("confirmed_diff");
-                int active_diff = jo.getJSONArray("data").getJSONObject(0).getInt("active_diff");
-                int deaths_diff = jo.getJSONArray("data").getJSONObject(0).getInt("deaths_diff");
-                int recovered = jo.getJSONArray("data").getJSONObject(0).getInt("recovered");
-                int recovered_diff = jo.getJSONArray("data").getJSONObject(0).getInt("recovered_diff");
-                Double fatality_rate = jo.getJSONArray("data").getJSONObject(0).getDouble("fatality_rate");
-                String last_updated = jo.getJSONArray("data").getJSONObject(0).getString("last_update");
-                int active = jo.getJSONArray("data").getJSONObject(0).getInt("active");
-                int confirmed = jo.getJSONArray("data").getJSONObject(0).getInt("confirmed");
-                int deaths = jo.getJSONArray("data").getJSONObject(0).getInt("deaths");
+                int confirmedDiff = jo.getJSONArray("data").getJSONObject(0).getInt(CONFIRMEDDIFF);
+                int activeDiff = jo.getJSONArray("data").getJSONObject(0).getInt(ACTIVEDIFF);
+                int deathsDiff = jo.getJSONArray("data").getJSONObject(0).getInt(DEATHSDIFF);
+                int recovered = jo.getJSONArray("data").getJSONObject(0).getInt(RECOVERED);
+                int recoveredDiff = jo.getJSONArray("data").getJSONObject(0).getInt(RECOVEREDDIFF);
+                Double fatalityRate = jo.getJSONArray("data").getJSONObject(0).getDouble(FATALITYRATE);
+                String lastUpdated = jo.getJSONArray("data").getJSONObject(0).getString(LASTUPDATED);
+                int active = jo.getJSONArray("data").getJSONObject(0).getInt(ACTIVE);
+                int confirmed = jo.getJSONArray("data").getJSONObject(0).getInt(CONFIRMED);
+                int deaths = jo.getJSONArray("data").getJSONObject(0).getInt(DEATHS);
 
-                return new ByParams(date, last_updated, confirmed, confirmed_diff, deaths, deaths_diff, recovered,
-                        recovered_diff, active, active_diff, fatality_rate, country);
+                return new ByParams(date, lastUpdated, confirmed, confirmedDiff, deaths, deathsDiff, recovered,
+                        recoveredDiff, active, activeDiff, fatalityRate, country);
             } else if (itemToString.equals("[]")) {
                 logger.error("Searched for an advanced Date. Invalid!!!");
-                throw new Exception("There is no data for that Date!");
+                throw new BadRequestException("There is no data for that Date!");
             } else {
                 logger.error("Invalid Parameters given!");
-                throw new Exception("Searched for an invalid Country or for an advanced Date!");
+                throw new BadRequestException("Searched for an invalid Country or for an advanced Date!");
             }
         } else {
             String message = jo.getJSONObject("error").getJSONArray("date").getString(0);
             logger.error("Invalid format given!");
-            throw new Exception(message);
+            throw new BadRequestException(message);
         }
 
     }

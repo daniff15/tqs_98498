@@ -80,12 +80,12 @@ public class CacheTest {
         assertEquals(this.date, cacheParams.getDate());
         assertEquals(this.country, cacheParams.getCountry());
         assertEquals(this.datecreation, cacheParams.getDatecreation());
-        assertEquals(0, cacheParams.getActive_diff());
-        assertEquals(0, cacheParams.getConfirmed_diff());
-        assertEquals(0, cacheParams.getDeaths_diff());
-        assertEquals(0, cacheParams.getRecovered_diff());
-        assertNull(cacheParams.getFatality_rate());
-        assertNull(cacheParams.getLast_updated());
+        assertEquals(0, cacheParams.getActiveDiff());
+        assertEquals(0, cacheParams.getConfirmedDiff());
+        assertEquals(0, cacheParams.getDeathsDiff());
+        assertEquals(0, cacheParams.getRecoveredDiff());
+        assertNull(cacheParams.getFatalityRate());
+        assertNull(cacheParams.getLastUpdated());
 
         verify(covidRepository, times(1)).findByDateAndCountry(anyString(), anyString());
     }

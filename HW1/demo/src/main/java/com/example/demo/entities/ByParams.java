@@ -19,35 +19,35 @@ public class ByParams implements Serializable {
     private Date datecreation;
 
     private String date;
-    private String last_updated;
+    private String lastUpdated;
     private int confirmed;
-    private int confirmed_diff;
+    private int confirmedDiff;
     private int deaths;
-    private int deaths_diff;
+    private int deathsDiff;
     private int recovered;
-    private int recovered_diff;
+    private int recoveredDiff;
     private int active;
-    private int active_diff;
-    private Double fatality_rate;
+    private int activeDiff;
+    private Double fatalityRate;
     private String country;
 
     public ByParams() {
     }
 
-    public ByParams(String date, String last_updated, int confirmed, int confirmed_diff,
-            int deaths, int deaths_diff, int recovered, int recovered_diff, int active, int active_diff,
-            Double fatality_rate, String country) {
+    public ByParams(String date, String lastUpdated, int confirmed, int confirmedDiff,
+            int deaths, int deathsDiff, int recovered, int recoveredDiff, int active, int activeDiff,
+            Double fatalityRate, String country) {
         this.date = date;
-        this.last_updated = last_updated;
+        this.lastUpdated = lastUpdated;
         this.confirmed = confirmed;
-        this.confirmed_diff = confirmed_diff;
+        this.confirmedDiff = confirmedDiff;
         this.deaths = deaths;
-        this.deaths_diff = deaths_diff;
+        this.deathsDiff = deathsDiff;
         this.recovered = recovered;
-        this.recovered_diff = recovered_diff;
+        this.recoveredDiff = recoveredDiff;
         this.active = active;
-        this.active_diff = active_diff;
-        this.fatality_rate = fatality_rate;
+        this.activeDiff = activeDiff;
+        this.fatalityRate = fatalityRate;
         this.country = country;
     }
 
@@ -59,12 +59,12 @@ public class ByParams implements Serializable {
         this.date = date;
     }
 
-    public String getLast_updated() {
-        return this.last_updated;
+    public String getLastUpdated() {
+        return this.lastUpdated;
     }
 
-    public void setLast_updated(String last_updated) {
-        this.last_updated = last_updated;
+    public void setLastUpdated(String lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
     public int getConfirmed() {
@@ -75,12 +75,12 @@ public class ByParams implements Serializable {
         this.confirmed = confirmed;
     }
 
-    public int getConfirmed_diff() {
-        return this.confirmed_diff;
+    public int getConfirmedDiff() {
+        return this.confirmedDiff;
     }
 
-    public void setConfirmed_diff(int confirmed_diff) {
-        this.confirmed_diff = confirmed_diff;
+    public void setConfirmedDiff(int confirmedDiff) {
+        this.confirmedDiff = confirmedDiff;
     }
 
     public int getDeaths() {
@@ -91,12 +91,12 @@ public class ByParams implements Serializable {
         this.deaths = deaths;
     }
 
-    public int getDeaths_diff() {
-        return this.deaths_diff;
+    public int getDeathsDiff() {
+        return this.deathsDiff;
     }
 
-    public void setDeaths_diff(int deaths_diff) {
-        this.deaths_diff = deaths_diff;
+    public void setDeathsDiff(int deathsDiff) {
+        this.deathsDiff = deathsDiff;
     }
 
     public int getRecovered() {
@@ -107,12 +107,12 @@ public class ByParams implements Serializable {
         this.recovered = recovered;
     }
 
-    public int getRecovered_diff() {
-        return this.recovered_diff;
+    public int getRecoveredDiff() {
+        return this.recoveredDiff;
     }
 
-    public void setRecovered_diff(int recovered_diff) {
-        this.recovered_diff = recovered_diff;
+    public void setRecoveredDiff(int recoveredDiff) {
+        this.recoveredDiff = recoveredDiff;
     }
 
     public int getActive() {
@@ -123,20 +123,20 @@ public class ByParams implements Serializable {
         this.active = active;
     }
 
-    public int getActive_diff() {
-        return this.active_diff;
+    public int getActiveDiff() {
+        return this.activeDiff;
     }
 
-    public void setActive_diff(int active_diff) {
-        this.active_diff = active_diff;
+    public void setActiveDiff(int activeDiff) {
+        this.activeDiff = activeDiff;
     }
 
-    public Double getFatality_rate() {
-        return this.fatality_rate;
+    public Double getFatalityRate() {
+        return this.fatalityRate;
     }
 
-    public void setFatality_rate(Double fatality_rate) {
-        this.fatality_rate = fatality_rate;
+    public void setFatalityRate(Double fatalityRate) {
+        this.fatalityRate = fatalityRate;
     }
 
     public Long getId() {
@@ -169,16 +169,16 @@ public class ByParams implements Serializable {
                 " id='" + getId() + "'" +
                 ", datecreation='" + getDatecreation() + "'" +
                 ", date='" + getDate() + "'" +
-                ", last_updated='" + getLast_updated() + "'" +
+                ", lastUpdated='" + getLastUpdated() + "'" +
                 ", confirmed='" + getConfirmed() + "'" +
-                ", confirmed_diff='" + getConfirmed_diff() + "'" +
+                ", confirmedDiff='" + getConfirmedDiff() + "'" +
                 ", deaths='" + getDeaths() + "'" +
-                ", deaths_diff='" + getDeaths_diff() + "'" +
+                ", deathsDiff='" + getDeathsDiff() + "'" +
                 ", recovered='" + getRecovered() + "'" +
-                ", recovered_diff='" + getRecovered_diff() + "'" +
+                ", recoveredDiff='" + getRecoveredDiff() + "'" +
                 ", active='" + getActive() + "'" +
-                ", active_diff='" + getActive_diff() + "'" +
-                ", fatality_rate='" + getFatality_rate() + "'" +
+                ", activeDiff='" + getActiveDiff() + "'" +
+                ", fatalityRate='" + getFatalityRate() + "'" +
                 ", country='" + getCountry() + "'" +
                 "}";
     }

@@ -77,16 +77,16 @@ public class ResolverTest {
                 "{\"data\": { \"date\" : \"2020-07-07\" , \"last_update\":\"2020-04-07 23:11:31\", \"confirmed\":1426096 , \"confirmed_diff\":80995, \"deaths\":81865, \"deaths_diff\":7300, \"recovered\":300054, \"recovered_diff\":23539, \"active\":1044177, \"active_diff\":50156, \"fatality_rate\":0.0574}}");
 
         assertThat(byParams.getDate()).isEqualTo("2020-07-07");
-        assertThat(byParams.getLast_updated()).isEqualTo("2020-04-07 23:11:31");
+        assertThat(byParams.getLastUpdated()).isEqualTo("2020-04-07 23:11:31");
         assertThat(byParams.getConfirmed()).isEqualTo(1426096);
-        assertThat(byParams.getConfirmed_diff()).isEqualTo(80995);
+        assertThat(byParams.getConfirmedDiff()).isEqualTo(80995);
         assertThat(byParams.getDeaths()).isEqualTo(81865);
-        assertThat(byParams.getDeaths_diff()).isEqualTo(7300);
+        assertThat(byParams.getDeathsDiff()).isEqualTo(7300);
         assertThat(byParams.getRecovered()).isEqualTo(300054);
-        assertThat(byParams.getRecovered_diff()).isEqualTo(23539);
+        assertThat(byParams.getRecoveredDiff()).isEqualTo(23539);
         assertThat(byParams.getActive()).isEqualTo(1044177);
-        assertThat(byParams.getActive_diff()).isEqualTo(50156);
-        assertThat(byParams.getFatality_rate()).isEqualTo(0.0574);
+        assertThat(byParams.getActiveDiff()).isEqualTo(50156);
+        assertThat(byParams.getFatalityRate()).isEqualTo(0.0574);
 
     }
 
@@ -104,16 +104,16 @@ public class ResolverTest {
                 "Portugal");
 
         assertThat(byParams.getDate()).isEqualTo("2020-07-07");
-        assertThat(byParams.getLast_updated()).isEqualTo("2020-04-07 23:11:31");
+        assertThat(byParams.getLastUpdated()).isEqualTo("2020-04-07 23:11:31");
         assertThat(byParams.getConfirmed()).isEqualTo(1426096);
-        assertThat(byParams.getConfirmed_diff()).isEqualTo(80995);
+        assertThat(byParams.getConfirmedDiff()).isEqualTo(80995);
         assertThat(byParams.getDeaths()).isEqualTo(81865);
-        assertThat(byParams.getDeaths_diff()).isEqualTo(7300);
+        assertThat(byParams.getDeathsDiff()).isEqualTo(7300);
         assertThat(byParams.getRecovered()).isEqualTo(300054);
-        assertThat(byParams.getRecovered_diff()).isEqualTo(23539);
+        assertThat(byParams.getRecoveredDiff()).isEqualTo(23539);
         assertThat(byParams.getActive()).isEqualTo(1044177);
-        assertThat(byParams.getActive_diff()).isEqualTo(50156);
-        assertThat(byParams.getFatality_rate()).isEqualTo(0.0574);
+        assertThat(byParams.getActiveDiff()).isEqualTo(50156);
+        assertThat(byParams.getFatalityRate()).isEqualTo(0.0574);
         assertThat(byParams.getCountry()).isEqualTo("Portugal");
 
     }
@@ -146,16 +146,16 @@ public class ResolverTest {
                 "Portugal");
 
         assertThat(byParams.getDate()).isEqualTo("2020-07-07");
-        assertThat(byParams.getLast_updated()).isEqualTo("2020-04-07 23:11:31");
+        assertThat(byParams.getLastUpdated()).isEqualTo("2020-04-07 23:11:31");
         assertThat(byParams.getConfirmed()).isEqualTo(1426096);
-        assertThat(byParams.getConfirmed_diff()).isEqualTo(80995);
+        assertThat(byParams.getConfirmedDiff()).isEqualTo(80995);
         assertThat(byParams.getDeaths()).isEqualTo(81865);
-        assertThat(byParams.getDeaths_diff()).isEqualTo(7300);
+        assertThat(byParams.getDeathsDiff()).isEqualTo(7300);
         assertThat(byParams.getRecovered()).isEqualTo(300054);
-        assertThat(byParams.getRecovered_diff()).isEqualTo(23539);
+        assertThat(byParams.getRecoveredDiff()).isEqualTo(23539);
         assertThat(byParams.getActive()).isEqualTo(1044177);
-        assertThat(byParams.getActive_diff()).isEqualTo(50156);
-        assertThat(byParams.getFatality_rate()).isEqualTo(0.0574);
+        assertThat(byParams.getActiveDiff()).isEqualTo(50156);
+        assertThat(byParams.getFatalityRate()).isEqualTo(0.0574);
         assertThat(byParams.getCountry()).isEqualTo("Portugal");
 
     }

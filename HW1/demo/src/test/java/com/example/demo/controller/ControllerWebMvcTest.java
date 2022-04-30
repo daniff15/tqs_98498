@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.Controller.CovidController;
+import com.example.demo.controller.CovidController;
 import com.example.demo.entities.ByParams;
 import com.example.demo.service.CovidService;
 
@@ -29,9 +29,6 @@ public class ControllerWebMvcTest {
 
         @MockBean
         private CovidService covidService;
-
-        // TODO - Fazer os testes para quando forem maus pedidos, por agora, siga
-        // enterro
 
         @Test
         public void testWithGoodDate_thenStatus200() throws Exception {
@@ -62,13 +59,13 @@ public class ControllerWebMvcTest {
                                 .andExpect(jsonPath("recovered", is(byParams.getRecovered())))
                                 .andExpect(jsonPath("deaths", is(byParams.getDeaths())))
                                 .andExpect(jsonPath("country", is(byParams.getCountry())))
-                                .andExpect(jsonPath("confirmed_diff", is(byParams.getConfirmed_diff())))
-                                .andExpect(jsonPath("active_diff", is(byParams.getActive_diff())))
-                                .andExpect(jsonPath("deaths_diff", is(byParams.getDeaths_diff())))
-                                .andExpect(jsonPath("recovered_diff", is(byParams.getRecovered_diff())))
-                                .andExpect(jsonPath("fatality_rate", is(byParams.getFatality_rate())))
+                                .andExpect(jsonPath("confirmedDiff", is(byParams.getConfirmedDiff())))
+                                .andExpect(jsonPath("activeDiff", is(byParams.getActiveDiff())))
+                                .andExpect(jsonPath("deathsDiff", is(byParams.getDeathsDiff())))
+                                .andExpect(jsonPath("recoveredDiff", is(byParams.getRecoveredDiff())))
+                                .andExpect(jsonPath("fatalityRate", is(byParams.getFatalityRate())))
                                 .andExpect(jsonPath("date", is(byParams.getDate())))
-                                .andExpect(jsonPath("last_updated", is(byParams.getLast_updated())));
+                                .andExpect(jsonPath("lastUpdated", is(byParams.getLastUpdated())));
 
                 verify(covidService, times(1)).getByDate(anyString());
 
@@ -103,13 +100,13 @@ public class ControllerWebMvcTest {
                                 .andExpect(jsonPath("recovered", is(byParams.getRecovered())))
                                 .andExpect(jsonPath("deaths", is(byParams.getDeaths())))
                                 .andExpect(jsonPath("country", is(byParams.getCountry())))
-                                .andExpect(jsonPath("confirmed_diff", is(byParams.getConfirmed_diff())))
-                                .andExpect(jsonPath("active_diff", is(byParams.getActive_diff())))
-                                .andExpect(jsonPath("deaths_diff", is(byParams.getDeaths_diff())))
-                                .andExpect(jsonPath("recovered_diff", is(byParams.getRecovered_diff())))
-                                .andExpect(jsonPath("fatality_rate", is(byParams.getFatality_rate())))
+                                .andExpect(jsonPath("confirmedDiff", is(byParams.getConfirmedDiff())))
+                                .andExpect(jsonPath("activeDiff", is(byParams.getActiveDiff())))
+                                .andExpect(jsonPath("deathsDiff", is(byParams.getDeathsDiff())))
+                                .andExpect(jsonPath("recoveredDiff", is(byParams.getRecoveredDiff())))
+                                .andExpect(jsonPath("fatalityRate", is(byParams.getFatalityRate())))
                                 .andExpect(jsonPath("date", is(byParams.getDate())))
-                                .andExpect(jsonPath("last_updated", is(byParams.getLast_updated())));
+                                .andExpect(jsonPath("lastUpdated", is(byParams.getLastUpdated())));
 
                 verify(covidService, times(1)).getByCountry(anyString());
 
@@ -144,13 +141,13 @@ public class ControllerWebMvcTest {
                                 .andExpect(jsonPath("recovered", is(byParams.getRecovered())))
                                 .andExpect(jsonPath("deaths", is(byParams.getDeaths())))
                                 .andExpect(jsonPath("country", is(byParams.getCountry())))
-                                .andExpect(jsonPath("confirmed_diff", is(byParams.getConfirmed_diff())))
-                                .andExpect(jsonPath("active_diff", is(byParams.getActive_diff())))
-                                .andExpect(jsonPath("deaths_diff", is(byParams.getDeaths_diff())))
-                                .andExpect(jsonPath("recovered_diff", is(byParams.getRecovered_diff())))
-                                .andExpect(jsonPath("fatality_rate", is(byParams.getFatality_rate())))
+                                .andExpect(jsonPath("confirmedDiff", is(byParams.getConfirmedDiff())))
+                                .andExpect(jsonPath("activeDiff", is(byParams.getActiveDiff())))
+                                .andExpect(jsonPath("deathsDiff", is(byParams.getDeathsDiff())))
+                                .andExpect(jsonPath("recoveredDiff", is(byParams.getRecoveredDiff())))
+                                .andExpect(jsonPath("fatalityRate", is(byParams.getFatalityRate())))
                                 .andExpect(jsonPath("date", is(byParams.getDate())))
-                                .andExpect(jsonPath("last_updated", is(byParams.getLast_updated())));
+                                .andExpect(jsonPath("lastUpdated", is(byParams.getLastUpdated())));
 
                 verify(covidService, times(1)).getByParams(anyString(), anyString());
 
@@ -163,13 +160,13 @@ public class ControllerWebMvcTest {
                 byParams.setRecovered(900000);
                 byParams.setDeaths(50000);
                 byParams.setCountry("Portugal");
-                byParams.setConfirmed_diff(1500);
-                byParams.setActive_diff(-15);
-                byParams.setDeaths_diff(12);
-                byParams.setRecovered_diff(3500);
-                byParams.setFatality_rate(0.035);
+                byParams.setConfirmedDiff(1500);
+                byParams.setActiveDiff(-15);
+                byParams.setDeathsDiff(12);
+                byParams.setRecoveredDiff(3500);
+                byParams.setFatalityRate(0.035);
                 byParams.setDate("2020-07-20");
-                byParams.setLast_updated((new Date(System.currentTimeMillis()).toString()));
+                byParams.setLastUpdated((new Date(System.currentTimeMillis()).toString()));
 
                 return byParams;
         }
