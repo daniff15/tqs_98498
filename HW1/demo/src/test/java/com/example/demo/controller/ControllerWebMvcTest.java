@@ -22,7 +22,7 @@ import static org.hamcrest.CoreMatchers.is;
 import java.util.Date;
 
 @WebMvcTest(CovidController.class)
-public class ControllerWebMvcTest {
+class ControllerWebMvcTest {
 
         @Autowired
         private MockMvc mvc;
@@ -31,7 +31,7 @@ public class ControllerWebMvcTest {
         private CovidService covidService;
 
         @Test
-        public void testWithGoodDate_thenStatus200() throws Exception {
+        void testWithGoodDate_thenStatus200() throws Exception {
                 ByParams byParams = createTestClass();
 
                 when(covidService.getByDate(byParams.getDate()))
@@ -46,7 +46,7 @@ public class ControllerWebMvcTest {
         }
 
         @Test
-        public void testWithGoodDate_thenGoodData() throws Exception {
+        void testWithGoodDate_thenGoodData() throws Exception {
                 ByParams byParams = createTestClass();
 
                 when(covidService.getByDate(byParams.getDate()))
@@ -72,7 +72,7 @@ public class ControllerWebMvcTest {
         }
 
         @Test
-        public void testWithGoodCountry_thenStatus200() throws Exception {
+        void testWithGoodCountry_thenStatus200() throws Exception {
                 ByParams byParams = createTestClass();
 
                 when(covidService.getByCountry(byParams.getCountry()))
@@ -87,7 +87,7 @@ public class ControllerWebMvcTest {
         }
 
         @Test
-        public void testWithGoodCountry_thenGoodData() throws Exception {
+        void testWithGoodCountry_thenGoodData() throws Exception {
                 ByParams byParams = createTestClass();
 
                 when(covidService.getByCountry(byParams.getCountry()))
@@ -113,7 +113,7 @@ public class ControllerWebMvcTest {
         }
 
         @Test
-        public void testWithGoodDate_Country_thenStatus200() throws Exception {
+        void testWithGoodDate_Country_thenStatus200() throws Exception {
                 ByParams byParams = createTestClass();
 
                 when(covidService.getByParams(byParams.getDate(), byParams.getCountry()))
@@ -128,7 +128,7 @@ public class ControllerWebMvcTest {
         }
 
         @Test
-        public void testWithGoodCountry_Date_thenGoodData() throws Exception {
+        void testWithGoodCountry_Date_thenGoodData() throws Exception {
                 ByParams byParams = createTestClass();
 
                 when(covidService.getByParams(byParams.getDate(), byParams.getCountry()))

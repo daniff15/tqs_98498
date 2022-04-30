@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 @DataJpaTest
-public class RepositoryTest {
+class RepositoryTest {
 
     private ByParams byParams;
 
@@ -74,7 +74,7 @@ public class RepositoryTest {
     }
 
     @Test
-    public void testWhenFindByExistingId_thenReturn() {
+    void testWhenFindByExistingId_thenReturn() {
         testEntityManager.persistAndFlush(byParams);
 
         ByParams fromDb = covidRepository.findById(byParams.getId());

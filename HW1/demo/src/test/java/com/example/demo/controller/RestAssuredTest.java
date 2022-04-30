@@ -19,7 +19,7 @@ import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import static org.hamcrest.CoreMatchers.*;
 
 @WebMvcTest(CovidController.class)
-public class RestAssuredTest {
+class RestAssuredTest {
 
     private ByParams byParams;
 
@@ -44,7 +44,7 @@ public class RestAssuredTest {
     }
 
     @Test
-    public void whenSearchByDate_thenReturn() throws Exception {
+    void whenSearchByDate_thenReturn() throws Exception {
 
         when(covidService.getByDate("2020-07-20")).thenReturn(byParams);
 
@@ -62,7 +62,7 @@ public class RestAssuredTest {
     }
 
     @Test
-    public void whenSearchByCountry_thenReturn() throws Exception {
+    void whenSearchByCountry_thenReturn() throws Exception {
 
         byParams.setConfirmed(1500000);
 
@@ -82,7 +82,7 @@ public class RestAssuredTest {
     }
 
     @Test
-    public void whenSearchByCountryAndDate_thenReturn() throws Exception {
+    void whenSearchByCountryAndDate_thenReturn() throws Exception {
         byParams.setActive(550);
 
         when(covidService.getByParams("2020-07-20", "Portugal")).thenReturn(byParams);

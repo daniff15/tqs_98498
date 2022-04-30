@@ -20,7 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class ServiceMockTest {
+class ServiceMockTest {
     private int active;
     private int confirmed;
     private int recovered;
@@ -79,7 +79,7 @@ public class ServiceMockTest {
     }
 
     @Test
-    public void whenSearchByValidCountryInCache_returnByParams()
+    void whenSearchByValidCountryInCache_returnByParams()
             throws Exception {
 
         ByParams found = covidService.getByCountry("Portugal");
@@ -89,7 +89,7 @@ public class ServiceMockTest {
     }
 
     @Test
-    public void whenSearchByValidDateInCache_returnByParams()
+    void whenSearchByValidDateInCache_returnByParams()
             throws Exception {
 
         ByParams found = covidService.getByDate("2020-11-11");
@@ -99,7 +99,7 @@ public class ServiceMockTest {
     }
 
     @Test
-    public void whenSearchByValidCountryAndDateInCache_returnByParams()
+    void whenSearchByValidCountryAndDateInCache_returnByParams()
             throws Exception {
 
         ByParams found = covidService.getByParams("2020-11-11", "Portugal");
@@ -116,7 +116,7 @@ public class ServiceMockTest {
             classExists = true;
         }
 
-        assertThat(classExists).isEqualTo(true);
+        assertThat(classExists).isTrue();
 
         Mockito.verify(cache, VerificationModeFactory.times(1)).getByCountry("Portugal");
     }
@@ -129,7 +129,7 @@ public class ServiceMockTest {
             classExists = true;
         }
 
-        assertThat(classExists).isEqualTo(true);
+        assertThat(classExists).isTrue();
 
         Mockito.verify(cache, VerificationModeFactory.times(1)).getByDate("2020-11-11");
     }
@@ -142,7 +142,7 @@ public class ServiceMockTest {
             classExists = true;
         }
 
-        assertThat(classExists).isEqualTo(true);
+        assertThat(classExists).isTrue();
 
         Mockito.verify(cache, VerificationModeFactory.times(1)).getByParametros("2020-11-11", "Portugal");
     }
@@ -156,7 +156,7 @@ public class ServiceMockTest {
             classExists = true;
         }
 
-        assertThat(classExists).isEqualTo(false);
+        assertThat(classExists).isFalse();
 
         Mockito.verify(cache, VerificationModeFactory.times(1)).getByCountry("dont_exist");
 
@@ -171,7 +171,7 @@ public class ServiceMockTest {
             classExists = true;
         }
 
-        assertThat(classExists).isEqualTo(false);
+        assertThat(classExists).isFalse();
 
         Mockito.verify(cache, VerificationModeFactory.times(1)).getByDate("2020-2020-2020");
 
@@ -187,7 +187,7 @@ public class ServiceMockTest {
             classExists = true;
         }
 
-        assertThat(classExists).isEqualTo(false);
+        assertThat(classExists).isFalse();
 
         Mockito.verify(cache, VerificationModeFactory.times(1)).getByParametros("2020-2020-2020", "dont_exist");
 

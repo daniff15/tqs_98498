@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.net.ConnectException;
 import java.util.List;
 
 import com.example.demo.cache.Cache;
@@ -18,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-public class ResolverTest {
+class ResolverTest {
     @Mock
     private Cache cache;
 
@@ -35,7 +36,7 @@ public class ResolverTest {
 
     @Test
     void callEXternalAPI_InvalidUrl() {
-        assertThrows(Exception.class, () -> {
+        assertThrows(ConnectException.class, () -> {
             resolver.getResponse("badURL");
         });
     }

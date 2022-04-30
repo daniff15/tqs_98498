@@ -59,7 +59,7 @@ public class InitialController {
 	}
 
 	@GetMapping("/index")
-	public String getIndex(Model model) throws InterruptedException, BadRequestException, IOException {
+	public String getIndex(Model model) throws InterruptedException, IOException {
 		return getFirst(model);
 	}
 

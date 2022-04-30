@@ -27,7 +27,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class CacheTest {
+class CacheTest {
     private int active;
     private int confirmed;
     private int recovered;

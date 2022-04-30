@@ -11,7 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class WebPageTest {
+class WebPageTest {
 
         private WebDriver driver;
         JavascriptExecutor js;
@@ -23,7 +23,7 @@ public class WebPageTest {
         }
 
         @Test
-        public void countryDataTest() throws InterruptedException {
+        void countryDataTest() throws InterruptedException {
 
                 driver.get("http://localhost:8080/index");
                 driver.manage().window().setSize(new Dimension(1866, 1053));
@@ -36,8 +36,6 @@ public class WebPageTest {
 
                 driver.findElement(By.id("name")).click();
                 driver.findElement(By.id("btn")).click();
-
-                Thread.sleep(2000);
 
                 assertEquals("124918",
                                 driver.findElement(
@@ -62,7 +60,7 @@ public class WebPageTest {
         }
 
         @Test
-        public void dateDataTest() throws InterruptedException {
+        void dateDataTest() throws InterruptedException {
                 driver.get("http://localhost:8080/date");
                 driver.manage().window().setSize(new Dimension(1866, 1053));
 
@@ -95,7 +93,7 @@ public class WebPageTest {
         }
 
         @Test
-        public void dateCoutryDataTest() throws InterruptedException {
+        void dateCoutryDataTest() throws InterruptedException {
                 driver.get("http://localhost:8080/countrydate");
                 driver.manage().window().setSize(new Dimension(1866, 1053));
 
@@ -109,7 +107,6 @@ public class WebPageTest {
                         WebElement dropdown = driver.findElement(By.id("countryName"));
                         dropdown.findElement(By.xpath("//option[. = 'Mexico']")).click();
                 }
-                Thread.sleep(2000);
 
                 driver.findElement(By.id("btn")).click();
 
