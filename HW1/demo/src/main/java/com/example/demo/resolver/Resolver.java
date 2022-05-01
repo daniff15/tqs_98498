@@ -87,18 +87,32 @@ public class Resolver {
     public ByParams convertJSONbyCountrytoByParams(String response, String country) throws BadRequestException {
         JSONObject jo = new JSONObject(response);
         JSONArray item = (JSONArray) jo.get("data");
+        int confirmedDiff = 0;
+        int activeDiff = 0;
+        int deathsDiff = 0;
+        int recovered = 0;
+        int recoveredDiff = 0;
+        Double fatalityRate= 0.0;
+        int active = 0;
+        int confirmed = 0;
+        int deaths = 0;
+
         if (item.length() != 0) {
             String date = jo.getJSONArray("data").getJSONObject(0).getString("date");
             String lastUpdated = jo.getJSONArray("data").getJSONObject(0).getString(LASTUPDATED);
-            int confirmedDiff = jo.getJSONArray("data").getJSONObject(0).getInt(CONFIRMEDDIFF);
-            int activeDiff = jo.getJSONArray("data").getJSONObject(0).getInt(ACTIVEDIFF);
-            int deathsDiff = jo.getJSONArray("data").getJSONObject(0).getInt(DEATHSDIFF);
-            int recovered = jo.getJSONArray("data").getJSONObject(0).getInt(RECOVERED);
-            int recoveredDiff = jo.getJSONArray("data").getJSONObject(0).getInt(RECOVEREDDIFF);
-            Double fatalityRate = jo.getJSONArray("data").getJSONObject(0).getDouble(FATALITYRATE);
-            int active = jo.getJSONArray("data").getJSONObject(0).getInt(ACTIVE);
-            int confirmed = jo.getJSONArray("data").getJSONObject(0).getInt(CONFIRMED);
-            int deaths = jo.getJSONArray("data").getJSONObject(0).getInt(DEATHS);
+            for (int i = 0; i < jo.getJSONArray("data").length() ; i++) {
+                confirmedDiff += jo.getJSONArray("data").getJSONObject(i).getInt(CONFIRMEDDIFF);
+                activeDiff += jo.getJSONArray("data").getJSONObject(i).getInt(ACTIVEDIFF);
+                deathsDiff += jo.getJSONArray("data").getJSONObject(i).getInt(DEATHSDIFF);
+                recovered += jo.getJSONArray("data").getJSONObject(i).getInt(RECOVERED);
+                recoveredDiff += jo.getJSONArray("data").getJSONObject(i).getInt(RECOVEREDDIFF);
+                fatalityRate += jo.getJSONArray("data").getJSONObject(i).getDouble(FATALITYRATE);
+                active += jo.getJSONArray("data").getJSONObject(i).getInt(ACTIVE);
+                confirmed += jo.getJSONArray("data").getJSONObject(i).getInt(CONFIRMED);
+                deaths += jo.getJSONArray("data").getJSONObject(i).getInt(DEATHS);
+            }
+
+            fatalityRate = fatalityRate/jo.getJSONArray("data").length();
 
             return new ByParams(date, lastUpdated, confirmed, confirmedDiff, deaths, deathsDiff, recovered,
                     recoveredDiff, active, activeDiff, fatalityRate, country);

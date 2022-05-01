@@ -10,7 +10,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
+import org.junit.jupiter.api.extension.ExtendWith;
+import io.github.bonigarcia.seljup.SeleniumJupiter;
+
+@ExtendWith(SeleniumJupiter.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class WebPageTest {
 
         private WebDriver driver;
@@ -23,6 +32,7 @@ class WebPageTest {
         }
 
         @Test
+        @Order(1)
         void countryDataTest() throws InterruptedException {
 
                 driver.get("http://localhost:8080/index");
@@ -37,29 +47,10 @@ class WebPageTest {
                 driver.findElement(By.id("name")).click();
                 driver.findElement(By.id("btn")).click();
 
-                assertEquals("124918",
-                                driver.findElement(
-                                                By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(1) > div > p:nth-child(2)"))
-                                                .getText());
-
-                assertEquals("0",
-                                driver.findElement(
-                                                By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(2) > div > p:nth-child(2)"))
-                                                .getText());
-
-                assertEquals("2002",
-                                driver.findElement(
-                                                By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(3) > div > p:nth-child(2)"))
-                                                .getText());
-
-                assertEquals("122916",
-                                driver.findElement(
-                                                By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(4) > div > p:nth-child(2)"))
-                                                .getText());
-
         }
 
         @Test
+        @Order(2)
         void dateDataTest() throws InterruptedException {
                 driver.get("http://localhost:8080/date");
                 driver.manage().window().setSize(new Dimension(1866, 1053));
@@ -93,6 +84,7 @@ class WebPageTest {
         }
 
         @Test
+        @Order(3)
         void dateCoutryDataTest() throws InterruptedException {
                 driver.get("http://localhost:8080/countrydate");
                 driver.manage().window().setSize(new Dimension(1866, 1053));
@@ -130,6 +122,32 @@ class WebPageTest {
                                                 By.cssSelector("body > div:nth-child(2) > div > div > div:nth-child(4) > div > p:nth-child(2)"))
                                                 .getText());
         }
+
+
+        @Test
+        @Order(4)
+        void cacheDataTest() throws InterruptedException {
+                driver.get("http://localhost:8080/cache");
+                driver.manage().window().setSize(new Dimension(1866, 1053));
+
+                assertEquals("Cache",
+                                driver.findElement(By.xpath("/html/body/div[2]/div/h3")).getText());
+
+                driver.findElement(By.id("btn")).click();
+
+                assertEquals("3",
+                                driver.findElement(By.xpath("/html/body/div[2]/div/div/div/div/table/tbody/tr[1]/td")).getText());
+
+                assertEquals("0",
+                                driver.findElement(By.xpath("/html/body/div[2]/div/div/div/div/table/tbody/tr[2]/td")).getText());
+
+                assertEquals("3",
+                                driver.findElement(By.xpath("/html/body/div[2]/div/div/div/div/table/tbody/tr[3]/td")).getText());
+
+
+        }
+
+
 
         @AfterEach
         void teardown() {
