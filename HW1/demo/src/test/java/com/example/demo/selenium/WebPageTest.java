@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import org.junit.jupiter.api.extension.ExtendWith;
-import io.github.bonigarcia.seljup.SeleniumJupiter;
+import io.github.bonigarcia.seljup.SeleniumJupiter;     
 
 @ExtendWith(SeleniumJupiter.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

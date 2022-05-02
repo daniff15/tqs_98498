@@ -132,7 +132,7 @@ class CacheTest {
 
     @Test
     void testScheduleCleaningCache() {
-        this.datecreation = new Date(System.currentTimeMillis() - 125 * 1000); // A date with more that 120 sec
+        this.datecreation = new Date(System.currentTimeMillis() - 125 * 1000);
         this.byParams.setDatecreation(this.datecreation);
         when(covidRepository.findAllByDatecreationIsLessThanEqual(any(Date.class)))
                 .thenReturn(new ArrayList<>(Arrays.asList(
@@ -155,7 +155,7 @@ class CacheTest {
 
     @Test
     void testHasExpiredInvalid() {
-        this.datecreation = new Date(System.currentTimeMillis() - 125 * 1000); // A date with more that 120 sec
+        this.datecreation = new Date(System.currentTimeMillis() - 125 * 1000);
         this.byParams.setDatecreation(datecreation);
         assertTrue(cache.hasExpired(this.byParams));
     }
