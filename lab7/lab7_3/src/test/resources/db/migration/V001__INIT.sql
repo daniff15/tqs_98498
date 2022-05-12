@@ -1,5 +1,5 @@
 
-CREATE TABLE book (
+CREATE TABLE books (
   id integer PRIMARY KEY,
   ibn varchar(150) not null,
   author varchar(150) not null,

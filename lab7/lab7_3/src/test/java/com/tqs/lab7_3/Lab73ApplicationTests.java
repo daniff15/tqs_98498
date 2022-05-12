@@ -10,6 +10,11 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+
 @Testcontainers
 @SpringBootTest
 class Lab73ApplicationTests {
@@ -34,10 +39,14 @@ class Lab73ApplicationTests {
 	@Order(1)
 	void contextLoads() {
 		Book book = new Book();
-    	book.setName("Testcontainers");
-    	bookRepository.save(book);
+    	
+		book.setName("Book Name");
+    	book.setId(4L);
+    	book.setAuthor("Author");
+    	book.setRelease_year(2022);
+    	book.setIbn("IBN");
 
-    	System.out.println("Context loads!");
+		System.out.println("Context loads!");
 	}
 
 }

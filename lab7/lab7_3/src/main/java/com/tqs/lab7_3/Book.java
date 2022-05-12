@@ -7,19 +7,18 @@ import javax.persistence.*;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String ibn;
     private String author;
     private String name;
-    private String release_year;
+    private Integer release_year;
 
     public Book() {
 
     }
 
-    public Book(String ibn, String author, String name, String release_year) {
+    public Book(String ibn, String author, String name, Integer release_year) {
         this.ibn = ibn;
         this.author = author;
         this.name = name;
@@ -58,11 +57,11 @@ public class Book {
         this.name = name;
     }
 
-    public String getRelease_year() {
+    public Integer getRelease_year() {
         return this.release_year;
     }
 
-    public void setRelease_year(String release_year) {
+    public void setRelease_year(Integer release_year) {
         this.release_year = release_year;
     }
 
